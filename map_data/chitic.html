@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>中自</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-directional-buttons.min.css">
+    <link rel="stylesheet" type="text/css" href="css/chitic.css">
+  </head>
+<body>
+  <canvas id="canvas"></canvas>
+  <header>
+    <img src="chiticLogo.png" class="logo">
+    <h2 class="text-center">丽水供排水调度指挥中心</h2>
+  </header>
+  <div class="content" id="app">
+    <div class="info col-sm-3">
+      <section>
+        <h3>工况指数</h3>
+        <div class="working-con">
+          <div v-for="i in leftCon" class="works">
+            <span>{{i.title}}</span>
+            <span><span class="works-count">{{i.info}}</span>{{i.unit}}</span>
+          </div>
+          <div>
+            <span>南城中高压</span>
+            <div class="works voltage">
+              <div>高压：<span class="works-count">1561</span></div>
+              <div>低压：<span class="works-count">263</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>报修信息</h3>
+        <div class="working-con working-bottom">
+          <div id="pie"></div>
+        </div>
+      </section>
+    </div>
+    <div class="pic col-sm-6">
+      <div id="map"></div>
+    </div>
+    <div class="info col-sm-3">
+      <section>
+        <h3>报修信息</h3>
+        <div class="working-con">
+          <div id="water"></div>
+          <div id="sewage"></div>
+        </div>
+      </section>
+      <section>
+        <h3>预警事件闭环</h3>
+        <div class="working-con" id="warn-ring">
+          <div class="ring">
+            <!-- <div class="circle btn-success">开始</div> -->
+            <!-- <i class="glyphicon glyphicon-arrow-down"></i> -->
+            <!-- <div class="btn btn-xs btn-info btn-arrow-right col"><span>1</span><i class="glyphicon glyphicon-menu-right"></i></div> -->
+            <div class="square btn-primary">预警 10</div>
+            <!-- <div class="btn btn-xs btn-info btn-arrow-right col"><span>2</span><i class="glyphicon glyphicon-menu-right"></i></div> -->
+            <i class="glyphicon glyphicon-arrow-down"></i>
+            <div class="square btn-primary">确认 7</div>
+            <!-- <div class="btn btn-xs btn-info btn-arrow-right col"><span>3</span><i class="glyphicon glyphicon-menu-right"></i></div> -->
+            <i class="glyphicon glyphicon-arrow-down"></i>
+            <div class="square btn-primary">派单 6</div>
+            <i class="glyphicon glyphicon-arrow-down"></i>
+            <div class="square btn-primary">处理 6</div>
+            <i class="glyphicon glyphicon-arrow-down"></i>
+            <div class="square btn-primary">验收 6</div>
+            <!-- <i class="glyphicon glyphicon-arrow-down"></i> -->
+            <!-- <div class="circle btn-danger">关闭</div> -->
+          </div>
+          <i class="glyphicon glyphicon-arrow-down start"></i>
+          <i class="glyphicon glyphicon-arrow-down end"></i>
+          <div class="square btn-primary plan">计划 1</div>
+        </div>
+      </section>
+    </div>
+  </div>
+  
+  
+  <script src="js/jquery-3.2.1.min.js" charset="utf-8"></script>
+  <script src="js/bootstrap.min.js" charset="utf-8"></script>
+  <script src="js/echarts.min.js"></script>
+  <script src="lishui.js"></script>
+  <script src="js/vue.js"></script>
+  <script src="js/canvas.js"></script>
+  <script src="js/chitic.js"></script>
+
+
+</body>
+</html>

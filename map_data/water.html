@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+var data = [
+     {name: '丽东村', value: 1200},
+     {name: '丽东二村', value: 1100},
+     {name: '后甫小区', value: 1210},
+     {name: '东苑小区', value: 1420},
+     {name: '正达阳光城', value: 1200},
+     {name: '万锦花苑', value: 1100},
+     {name: '城中花苑', value: 960},
+     {name: '花园新村', value: 880},
+     {name: '金田小区', value: 1060},
+     {name: '银苑小区', value: 1100},
+     {name: '大洋河小区', value: 1300},
+     {name: '梅山小区', value: 1050},
+     {name: '莲花新村', value: 1450},
+     {name: '螺蛳田背', value: 1360},
+     {name: '周畈', value: 1500},
+     {name: '铁钉桥', value: 975},
+     {name: '五坟圩', value: 753},
+     {name: '梅溪', value: 840},
+     {name: '朱田背', value: 984},
+     {name: '中岸圩', value: 874},
+     {name: '上吕埠坑', value: 1060},
+     {name: '下吕埠坑', value: 780},
+     {name: '冒险岛水世界', value: 819},
+     {name: '民族乐园', value: 1536},
+     {name: '应星楼', value: 1254},
+     {name: '刘英小学', value: 1278},
+     {name: '丽水中学', value: 1225},
+     {name: '动车站', value: 1520},
+     {name: '万地广场', value: 920}
+];
+
+var geoCoordMap = {
+    '丽东村':[119.923996,28.461111],
+    '丽东二村':[119.928892,28.462218],
+    '后甫小区':[119.935243,28.460821],
+    '东苑小区':[119.94274,28.461821],
+    '正达阳光城':[119.935001,28.464584],
+    '万锦花苑':[119.932198,28.463612],
+    '城中花苑':[119.931097,28.462234],
+    '花园新村':[119.932993,28.457638],
+    '金田小区':[119.936177,28.456947],
+    '银苑小区':[119.936591,28.449662],
+    '大洋河小区':[119.930073,28.451592],
+    '梅山小区':[119.92171,28.450806],
+    '莲花新村':[119.912377,28.46152],
+    '螺蛳田背':[119.90294,28.460309],
+    '周畈':[119.90762,28.472138],
+    '铁钉桥':[119.961927,28.482742],
+    '五坟圩':[119.954885,28.473439],
+    '梅溪':[119.969293,28.451814],
+    '朱田背':[119.933541,28.432074],
+    '中岸圩':[119.941428,28.438808],
+    '上吕埠坑':[119.891931,28.454895],
+    '下吕埠坑':[119.895453,28.453307],
+    '冒险岛水世界':[119.905693,28.451481],
+    '民族乐园':[119.939308,28.462977],
+    '应星楼':[119.925205,28.441317],
+    '刘英小学':[119.938437,28.444311],
+    '丽水中学':[119.938046,28.480893],
+    '动车站':[119.96053,28.447217],
+    '万地广场':[119.930042,28.46643]
+};
+
+var convertData = function (data) {
+    var res = [];
+    for (var i = 0; i < data.length; i++) {
+        var geoCoord = geoCoordMap[data[i].name];
+        if (geoCoord) {
+            res.push({
+                name: data[i].name,
+                value: geoCoord.concat(data[i].value)
+            });
+        }
+    }
+    return res;
+};
+
+option = {
+    title: {
+        text: '浑水情况统计数据',
+        textStyle: {
+            color:'#FF0000',
+            fontSize:18,
+            fontWeight:'bold',
+        },
+        subtext: '一天的统计数据',
+        left: 'center'
+    },
+    tooltip : {
+        trigger: 'item'
+    },
+    bmap: {
+        center: [119.92,28.46],
+        zoom: 15,
+        roam: true,
+        mapStyle: {
+            styleJson: [{
+                'featureType': 'water',
+                'elementType': 'all',
+                'stylers': {
+                    'color': '#d1d1d1'
+                }
+            }, {
+                'featureType': 'land',
+                'elementType': 'all',
+                'stylers': {
+                    'color': '#666666'
+                }
+            }, {
+                'featureType': 'railway',
+                'elementType': 'all',
+                'stylers': {
+                    'visibility': 'off'
+                }
+            }, {
+                'featureType': 'highway',
+                'elementType': 'all',
+                'stylers': {
+                    'color': '#fdfdfd'
+                }
+            }, {
+                'featureType': 'highway',
+                'elementType': 'labels',
+                'stylers': {
+                    'visibility': 'off'
+                }
+            }, {
+                'featureType': 'arterial',
+                'elementType': 'geometry',
+                'stylers': {
+                    'color': '#fefefe'
+                }
+            }, {
+                'featureType': 'arterial',
+                'elementType': 'geometry.fill',
+                'stylers': {
+                    'color': '#fefefe'
+                }
+            }, {
+                'featureType': 'poi',
+                'elementType': 'all',
+                'stylers': {
+                    'visibility': 'off'
+                }
+            }, {
+                'featureType': 'green',
+                'elementType': 'all',
+                'stylers': {
+                    'visibility': 'off'
+                }
+            }, {
+                'featureType': 'subway',
+                'elementType': 'all',
+                'stylers': {
+                    'visibility': 'off'
+                }
+            }, {
+                'featureType': 'manmade',
+                'elementType': 'all',
+                'stylers': {
+                    'color': '#d1d1d1'
+                }
+            }, {
+                'featureType': 'local',
+                'elementType': 'all',
+                'stylers': {
+                    'color': '#d1d1d1'
+                }
+            }, {
+                'featureType': 'boundary',
+                'elementType': 'all',
+                'stylers': {
+                    'color': '#fefefe'
+                }
+            }, {
+                'featureType': 'building',
+                'elementType': 'all',
+                'stylers': {
+                    'color': '#d1d1d1'
+                }
+            }, {
+                'featureType': 'label',
+                'elementType': 'labels.text.fill',
+                'stylers': {
+                    'color': '#999999'
+                }
+            }]
+        }
+    },
+    dataRange: {
+        min : 700,
+        max : 1700,
+        y: '60%',
+        calculable : true,
+        color: ['#ff3333', 'orange', 'yellow','lime','aqua']
+    },
+    series : [
+        {
+            name: '浑浊情况',
+            type: 'scatter',
+            coordinateSystem: 'bmap',
+            data: convertData(data),
+            symbolSize: function (val) {
+                return 10;
+            },
+            label: {
+                normal: {
+                    formatter: '{b}',
+                    position: 'right',
+                    show: false
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+
+            itemStyle: {
+                normal: {
+                    color: 'purple'
+                }
+            },
+            markPoint : {
+                symbol:'emptyCircle',
+                symbolSize : function (v){
+                    return 20
+                },
+                effect : {
+                    show: true,
+                    shadowBlur : 0
+                },
+                itemStyle:{
+                    normal:{
+                        label:{show:false}
+                    }
+                }
+            }
+        }
+    ]
+};;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>

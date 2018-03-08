@@ -1,0 +1,208 @@
+#canvas {
+	width: 100%;
+	position:absolute;
+	z-index:-100;
+}
+#map {
+	width: 100%;
+	height: 100%;
+}
+#pie {
+	width: 100%;
+	height: 300px;
+}
+#water,#sewage {
+	width: 100%;
+	height: 200px;
+}
+
+html {
+	height: 100%;
+	overflow-y: auto;
+}
+/*顶部样式*/
+header {
+	width: 100%;
+	height: 60px;
+	position: relative;
+}
+.content {
+	min-width: 800px;
+	overflow: hidden;
+}
+.logo {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 40px;
+}
+.text-center {
+	margin: 0;
+	height: 40px;
+	line-height: 40px;
+	color: #fff;
+}
+/*内容信息*/
+section {
+	margin-bottom: 20px;
+}
+.pic,.info {
+	height: 100%;
+}
+.info {
+	color: #fff;
+}
+.info h3 {
+	height: 40px;
+	line-height: 40px;
+	text-indent: 12px;
+	background-color: rgba(50,60,72,.9);
+	margin: 0;
+}
+.working-con {
+	background-color: rgba(50,60,72,.3);
+}
+.voltage {
+	text-align: right;
+	margin-right: 50px;
+}
+.info span {
+	font-size: 20px;
+	line-height: 40px;
+}
+.info .works-count {
+	font-size: 30px;
+	color: #f8e707;
+	margin-right: 5px;
+}
+
+.working-bottom {
+	overflow-y: auto;
+}
+#warn-ring {
+	overflow-y: auto;
+	position: relative;
+}
+#warn-ring>div {
+	margin-left: 0;
+}
+.ring {
+	position: relative;
+	width: 70%;
+	margin-top: 20px;
+}
+.ring>div {
+	margin: 0 auto;
+}
+.start,.end {
+	position: absolute;
+}
+.glyphicon.start {
+	transform: rotate(-45deg);
+	top: 85px;
+}
+.glyphicon.end {
+	transform: rotate(45deg);
+	top: 120px;
+}
+.plan {
+	position: absolute;
+	top: 92px;
+	right: 20%;
+}
+.circle {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 40px;
+}
+.square {
+	height: 30px;
+	width: 80px;
+	text-align: center;
+	line-height: 30px;
+	margin-left: 10px;
+}
+
+.glyphicon {
+	color: rgba(255,185,92,.8);
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+/*文字渐变*/
+@-webkit-keyframes mask {
+	0% { background-position: 0 0;}
+	100% { background-position: -100% 0;}
+}
+@-webkit-keyframes anim{
+	0%{
+		background-position: 0 0;
+	}
+	100%{
+		background-position: -100% 0;
+	}
+}
+h2 {
+	text-align: center;
+	background-image: -webkit-linear-gradient(left, #fff, #fff 5%,#999 10%, #fff 15%, #fff);
+	background-size: 200%;
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+	-webkit-animation: anim 2s infinite;
+}
+
+
+/*改变箭头多余部分的背景色和整体背景一样*/
+.btn-arrow-right:before {
+	background-color: rgb(19,27,39);
+	height: 3px;
+}
+.btn.btn-arrow-right {
+	width: 40px;
+}
+.btn.btn-arrow-right.col {
+	margin-top: 20px;
+	transform: rotate(90deg);
+}
+.btn.btn-arrow-right.col>span {
+	display: block;
+	transform: rotate(-90deg);
+}
+.btn.btn-arrow-right>i {
+	font-size: 20px;
+	color: rgba(255,185,92,.8);
+	position: absolute;
+	left: 0;
+	top: 50%;
+	z-index: 99;
+	transform: translateY(-50%);
+	animation: myfirst 2s infinite;
+}
+@keyframes myfirst{
+	from {left:-10px;}
+	to {left:30px;}
+}
+
+
+/*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar{
+    width: 10px;
+    height: 10px;
+    background-color: #f5f5f5;
+}
+/*定义滚动条的轨道，内阴影及圆角*/
+::-webkit-scrollbar-track{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    border-radius: 10px;
+    background-color: #f5f5f5;
+}
+/*定义滑块，内阴影及圆角*/
+::-webkit-scrollbar-thumb{
+    /*width: 10px;*/
+    height: 20px;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}

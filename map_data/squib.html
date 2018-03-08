@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+var data = [
+     {name: '丽东村', value: 100},
+     {name: '丽东二村', value: 100},
+     {name: '后甫小区', value: 100},
+     {name: '东苑小区', value: 100},
+     {name: '正达阳光城', value: 100},
+     {name: '万锦花苑', value: 100},
+     {name: '城中花苑', value: 100},
+     {name: '花园新村', value: 100},
+     {name: '金田小区', value: 100},
+     {name: '银苑小区', value: 100},
+     {name: '大洋河小区', value: 100},
+     {name: '梅山小区', value: 100},
+     {name: '莲花新村', value: 100},
+     {name: '螺蛳田背', value: 100},
+     {name: '城西村', value: 100},
+     {name: '周畈', value: 100},
+     {name: '金周村', value: 100},
+     {name: '林宅口村', value: 100},
+     {name: '沙溪亭', value: 100},
+     {name: '红叶村', value: 100},
+     {name: '石牛村', value: 100},
+     {name: '红圩村', value: 100},
+     {name: '平三村', value: 100},
+     {name: '平一村', value: 100},
+     {name: '资福村', value: 100},
+     {name: '任村', value: 100},
+     {name: '白口村', value: 100},
+     {name: '铁钉桥', value: 75},
+     {name: '五坟圩', value: 75},
+     {name: '管后村', value: 79},
+     {name: '社后村', value: 79},
+     {name: '梅溪岭', value: 80},
+     {name: '梅溪', value: 80},
+     {name: '卢埠村', value: 80},
+     {name: '朱田背', value: 84},
+     {name: '中岸圩', value: 84},
+     {name: '塔下村', value: 84},
+     {name: '白岭脚', value: 85},
+     {name: '中堂', value: 86},
+     {name: '金山下', value: 86},
+     {name: '柳后', value: 86},
+     {name: '朱弄', value: 90},
+     {name: '金山', value: 90},
+     {name: '大塘后', value: 92},
+     {name: '吴垵村', value: 93},
+     {name: '小白岩村', value: 95},
+     {name: '弥陀庵村', value: 96},
+     {name: '大白岩村', value: 198},
+     {name: '旭光村', value: 199},
+     {name: '姓谢村', value: 99},
+     {name: '白峰村', value: 100},
+     {name: '余庄前村', value: 103},
+     {name: '余村', value: 104},
+     {name: '官岩村', value: 105},
+     {name: '上吕埠坑', value: 106},
+     {name: '下吕埠坑', value: 112},
+     {name: '路湾村', value: 112},
+     {name: '蓝色清水湾', value: 113},
+     {name: '花街村', value: 114},
+     {name: '下河山村', value: 116},
+     {name: '桐岭村', value: 257},
+     {name: '丽南新村', value: 119},
+     {name: '冒险岛水世界', value: 119},
+     {name: '吴弄口村', value: 179},
+     {name: '朗奇村', value: 120},
+     {name: '白桥村1号', value: 120},
+     {name: '小木溪村1号', value: 167},
+     {name: '清风制冷', value: 130},
+     {name: '富岭大坑口', value: 162},
+     {name: '富岭叶村', value: 133},
+     {name: '古城村', value: 134},
+     {name: '民族乐园', value: 136},
+     {name: '青林小学', value: 143},
+     {name: '应星楼', value: 144},
+     {name: '刘英小学', value: 128},
+     {name: '丽水中学', value: 122},
+     {name: '联城镇政府', value: 123},
+     {name: '动车站', value: 124},
+     {name: '万地广场', value: 117},
+     {name: '南城电影大世界', value: 138},
+     {name: '浙江方正电机', value: 145},
+     {name: '浙江闵锋化学公司', value: 140}
+];
+var geoCoordMap = {
+    '丽东村':[119.923996,28.461111],
+    '丽东二村':[119.928892,28.462218],
+    '后甫小区':[119.935243,28.460821],
+    '东苑小区':[119.94274,28.461821],
+    '正达阳光城':[119.935001,28.464584],
+    '万锦花苑':[119.932198,28.463612],
+    '城中花苑':[119.931097,28.462234],
+    '花园新村':[119.932993,28.457638],
+    '金田小区':[119.936177,28.456947],
+    '银苑小区':[119.936591,28.449662],
+    '大洋河小区':[119.930073,28.451592],
+    '梅山小区':[119.92171,28.450806],
+    '莲花新村':[119.912377,28.46152],
+    '螺蛳田背':[119.90294,28.460309],
+    '城西村':[119.908384,28.468978],
+    '周畈':[119.90762,28.472138],
+    '金周村':[119.885378,28.484663],
+    '林宅口村':[119.87503,28.492537],
+    '沙溪亭':[119.869424,28.43741],
+    '红叶村':[119.815526,28.398144],
+    '石牛村':[119.838379,28.407295],
+    '红圩村':[119.828893,28.391535],
+    '平三村':[119.825587,28.385815],
+    '平一村':[119.825443,28.378696],
+    '资福村':[119.817969,28.366618],
+    '任村':[119.834354,28.416445],
+    '白口村':[119.831192,28.421909],
+    '铁钉桥':[119.961927,28.482742],
+    '五坟圩':[119.954885,28.473439],
+    '管后村':[119.956717,28.482393],
+    '社后村':[119.961209,28.470169],
+    '梅溪岭':[119.979678,28.455911],
+    '梅溪':[119.969293,28.451814],
+    '卢埠村':[119.956502,28.444001],
+    '朱田背':[119.933541,28.432074],
+    '中岸圩':[119.941428,28.438808],
+    '塔下村':[119.95802,28.435116],
+    '白岭脚':[119.943287,28.428921],
+    '中堂':[119.93973,28.427937],
+    '金山下':[119.933514,28.420757],
+    '柳后':[119.927585,28.418724],
+    '朱弄':[119.917201,28.406365],
+    '金山':[119.926112,28.417866],
+    '大塘后':[119.920794,28.415515],
+    '吴垵村':[119.867291,28.432193],
+    '小白岩村':[119.879292,28.458888],
+    '弥陀庵村':[119.870543,28.45098],
+    '大白岩村':[119.866123,28.455157],
+    '旭光村':[119.841518,28.441579],
+    '姓谢村':[119.843926,28.442159],
+    '白峰村':[119.836973,28.429723],
+    '余庄前村':[119.883451,28.418351],
+    '余村':[119.88735,28.427246],
+    '官岩村':[119.895237,28.440317],
+    '上吕埠坑':[119.891931,28.454895],
+    '下吕埠坑':[119.895453,28.453307],
+    '路湾村':[119.882517,28.465184],
+    '蓝色清水湾':[119.867228,28.473535],
+    '花街村':[119.896531,28.490965],
+    '下河山村':[119.907957,28.47663],
+    '桐岭村':[119.886865,28.435473],
+    '丽南新村':[119.910724,28.443985],
+    '冒险岛水世界':[119.905693,28.451481],
+    '吴弄口村':[119.896495,28.42067],
+    '朗奇村':[119.807742,28.409423],
+    '白桥村1号':[119.8196,28.419272],
+    '小木溪村1号':[119.922366,28.431788],
+    '清风制冷':[119.88647,28.383399],
+    '富岭大坑口':[119.928223,28.410861],
+    '富岭叶村':[119.942443,28.422512],
+    '古城村':[119.949046,28.442619],
+    '民族乐园':[119.939308,28.462977],
+    '青林小学':[119.973947,28.47644],
+    '应星楼':[119.925205,28.441317],
+    '刘英小学':[119.938437,28.444311],
+    '丽水中学':[119.938046,28.480893],
+    '联城镇政府':[119.863307,28.468676],
+    '动车站':[119.96053,28.447217],
+    '万地广场':[119.930042,28.46643],
+    '南城电影大世界':[119.859974,28.410941],
+    '浙江方正电机':[119.853758,28.421266],
+    '浙江闵锋化学公司':[119.857279,28.426285]
+};
+
+var convertData = function (data) {
+    var res = [];
+    for (var i = 0; i < data.length; i++) {
+        var geoCoord = geoCoordMap[data[i].name];
+        if (geoCoord) {
+            res.push({
+                name: data[i].name,
+                value: geoCoord.concat(data[i].value)
+            });
+        }
+    }
+    return res;
+};
+
+option = {
+    title: {
+        text: '丽水供排水公司 - 爆管分布图',
+        left: 'center'
+    },
+    tooltip : {
+        trigger: 'item'
+    },
+    bmap: {
+        center: [119.909525,28.438046],
+        zoom: 13,
+        roam: true,
+        mapStyle: {
+            styleJson: [{
+                'featureType': 'local',
+                'elementType': 'all',
+                'stylers': {
+                    'color': '#d1d1d1'
+                }
+            }, {
+                'featureType': 'boundary',
+                'elementType': 'all',
+                'stylers': {
+                    // 'color': '#fefefe'
+                }
+            }]
+        }
+    },
+    series : [
+        {
+            name: '冰冻信息',
+            type: 'scatter',
+            coordinateSystem: 'bmap',
+            data: convertData(data),
+            symbolSize: function (val) {
+                return val[2] / 10;
+            },
+            label: {
+                normal: {
+                    formatter: '{b}',
+                    position: 'right',
+                    show: false
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: '#00CD66'
+                }
+            }
+        },
+        {
+            name: 'top6',
+            type: 'effectScatter',
+            coordinateSystem: 'bmap',
+            data: convertData(data.sort(function (a, b) {
+                return b.value - a.value;
+            }).slice(0, 6)),
+            symbolSize: function (val) {
+                return val[2] / 10;
+            },
+            showEffectOn: 'render',
+            rippleEffect: {
+                brushType: 'stroke'
+            },
+            hoverAnimation: true,
+            label: {
+                normal: {
+                    formatter: '{b}',
+                    position: 'right',
+                    show: true
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: '#00CD66',
+                    shadowBlur: 10,
+                    shadowColor: '#333'
+                }
+            },
+            zlevel: 1
+        }
+    ]
+};;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>
