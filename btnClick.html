@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin:0px;padding:0px;}
+        .box{
+            width:980px;
+            height:100px;
+            background: #c7ddef;
+            margin:0 auto;
+            line-height: 100px;
+            text-align: center;
+        }
+        label{
+            display: inline-block;
+            width:60px;
+            height:30px;
+            background: #fff;
+            border-radius:30px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color .1s ease-out;
+            pointer-events: none;
+            box-shadow:1px 1px 3px rgba(100,100,100,0.6);
+        }
+        label:after{
+            content:'';
+            position: absolute;
+            left:0;
+            height:28px;
+            top:1px;
+            background: #cccccc;
+            width:28px;
+            border-radius:50%;
+            cursor: pointer;
+            transition: left .1s ease-out;
+            pointer-events: auto;
+        }
+
+        input[type=checkbox]{
+            display: none;
+        }
+        input[type=checkbox]:checked + label{
+            background: #ff5a5a;
+            transition: background-color .1s ease-in;
+        }
+        input[type=checkbox]:first-child:checked + label{
+            background: #f39c12;
+            transition: background-color .1s ease-in;
+        }
+        input[type=checkbox]:checked + label:last-child{
+            background: #1abc9c;
+            transition: background-color .1s ease-in;
+        }
+        input[type=checkbox]:checked + label:after{
+            background: #fff;
+            left:32px;
+            transition: left .1s ease-in;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <input type="checkbox" id="l1" name="button"/>
+        <label for="l1"></label>
+        <input type="checkbox" id="l2" name="button"/>
+        <label for="l2"></label>
+        <input type="checkbox" id="l3" name="button"/>
+        <label for="l3"></label>
+    </div>
+</body>
+</html>

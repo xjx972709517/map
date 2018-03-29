@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+    <style>
+        .circle {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            border-radius: 50%;
+            background: -moz-linear-gradient(top, #000000 0%, #ffffff 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#51F56D), color-stop(100%,#EEFD41));
+            background: -webkit-linear-gradient(top, #51F56D 0%,#EEFD41 100%);
+            background: -o-linear-gradient(top, #51F56D 0%,#EEFD41 100%);
+            background: -ms-linear-gradient(top, #51F56D 0%,#EEFD41 100%);
+            background: linear-gradient(to bottom, #51F56D 0%,#EEFD41 100%);
+            -webkit-transform: rotate(90deg);
+            position:relative;
+            margin-left: 100px;
+            margin-top: 100px;
+        }
+
+        .circle_left:after{
+            content:'';
+            position:absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #3BF774;
+             /*background: linear-gradient(to bottom, #3BF774, #FEFC3C);*/
+            border-radius: 50%;
+            left: 44px;
+            top: 95px;
+            z-index:-1;
+            -webkit-box-shadow:0 0 10px #3BF774;
+            -moz-box-shadow:0 0 10px #3BF774;
+            box-shadow:0 0 10px #3BF774;
+
+        }
+        .clip_left,.clip_right{
+            width:100px;
+            height:100px;
+            position: absolute;
+            top: 0px;left: 0px;
+        }
+        .circle_left, .circle_right{
+            width: 103px;
+            height: 102px;
+            position: absolute;
+            border-radius: 50%;
+            top: -2px;
+            left: -1px;
+            background: #fff;
+            /*position:relative;*/
+        }
+        /*出于展示用的改变背景色*/
+        /*    .circle_left{
+            background: green;
+        }
+        .circle_right{
+            background: lightblue;
+        }*/
+        .circle_right,.clip_right {
+            clip:rect(0,auto,auto,50px);
+        }
+        .circle_left , .clip_left{
+            clip:rect(0,50px,auto,0);
+        }
+
+        /*
+        *当top和left取值为auto时，相当于0
+        *当bottom和right取值为auto时，相当于100%
+        */
+        .mask {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            left: 5px;
+            top: 5px;
+            background: #FFF;
+            position: absolute;
+            text-align: center;
+            line-height: 150px;
+            font-size: 16px;
+        }
+        .circle1 {
+            width: 50px; height: 25px;
+            border-radius:30px 30px 0 0;
+            left: 15px;
+            top: 15px;
+
+            background-color: #fff;
+            position:absolute;
+        }
+        .circle1-left {
+            width:80px;
+            height:40px;
+            border-radius:40px 40px 0 0;
+            background: linear-gradient(to right, #EEFD41, #51F56D);
+            -webkit-transform: rotate(-90deg);
+            position:relative;
+            left: -15px;
+            top: 25px;
+        }
+        .kedu{
+            position:absolute;
+            font-size: 12px;
+            color: #1ADCF0;
+            -webkit-transform: rotate(-90deg);
+        }
+        .kedu1{
+            left: 38px;
+            top: 101px;
+        }
+        .kedu6{
+            left: 38px;
+            bottom: 104px;
+        }
+        .kedu2{
+            left: 8px;
+            top: 90px;
+        }
+        .kedu5{
+            left: 8px;
+            bottom: 90px;
+        }
+        .kedu3{
+            left: -11px;
+            top: 64px;
+        }
+        .kedu4{
+            left: -11px;
+            top: 18px;
+        }
+
+        .demoSpan1{
+            overflow: hidden;
+            height: 15px;
+            width: 12px;
+            display: block;
+            position: absolute;
+            left: 38px;
+            top: 50px;
+            z-index: 99;
+        }
+
+        .demoSpan1:before{
+            content: '';
+            content:''; 
+            height:8px; 
+            width:8px; 
+            display:block; 
+            z-index:1; 
+            background:#F9F43D; 
+            border-radius:15px;
+            -webkit-border-radius:15px;
+            -moz-border-radius:15px; 
+            color:#fff; 
+            text-align:center;
+        }
+
+        .demoSpan1:after{
+            content: '';
+            height: 0px;
+            width: 0px;
+            display: block;
+            border: 0px transparent solid;
+            border-top-color: #F9F43D;
+            border-width: 4px 2px 0px 2px;
+        }
+        .g_num{
+            position:absolute;
+            font-size: 12px;
+            left: 26px;
+            top: -26px;
+            color: #43FF74;
+            font-weight: bold;
+        }
+        .g_num1{
+            left: 42px;
+            top: -26px;
+        }
+
+    </style>
+</head>
+<body>
+    <!--背景圆-->
+    <div class="circle">
+        <!--左半边圆-->
+        <div class="circle_left">
+            <div class="clip_left">
+
+            </div>
+        </div>
+        <!--右半边圆-->
+        <div class="circle_right">
+            <div class="clip_right"></div>
+        </div>
+        <!-- 刻度 -->
+        <div class='kedu kedu1'>50</div>
+        <div class='kedu kedu2'>60</div>
+        <div class='kedu kedu3'>70</div>
+        <div class='kedu kedu4'>80</div>
+        <div class='kedu kedu5'>90</div>
+        <div class='kedu kedu6'>100</div>
+        <span class="demoSpan1"></span>
+        <div class="mask">
+             <!-- <div class="circleProgress rightcircle"></div> -->
+            <div class="circle1-left">
+                <div class="circle1"></div>
+                <span class='g_num g_cc'>60</span>
+                <span class='g_num g_num1'>%</span>
+            </div>
+
+        </div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script>
+        $(function(){
+            if( $('.mask .g_cc').text() <= 50 ){
+               $('.demoSpan1').css({
+                    'left':43+'px',
+
+                });
+            }else{
+                $('.circle_left').css({
+                    'transform':'rotate(90deg)',
+
+                });
+                $('.circle_left').css('transform','rotate('+(($('.mask .g_cc').text()-50)*3.6)+'deg)');
+                 $('.demoSpan1').css('transform','rotate('+(($('.mask .g_cc').text()-50)*3.6)+'deg)');
+            }
+        })
+    </script>
+</body>
+</html>

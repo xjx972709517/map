@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+    </head>
+    <body>
+        <style>
+            *{
+                margin:0;
+                padding:0;
+            }
+            html,body{
+                font:normal 12px 'Arial','Microsoft YaHei', '微软雅黑';
+            }
+            ul,ol{
+                list-style: none;
+            }
+            a{
+                text-decoration: none;
+            }
+            h1,h2,h3,h4,h5,h6,b,strong{
+                font-weight: normal;
+            }
+            .banner{
+                width: 100%;
+                background:#ccc;
+                position: absolute;
+                top:0;
+                bottom:0;
+                margin:auto;
+                display: -webkit-flex;
+                display: flex;
+                align-items: center;
+            }
+            .banner>div{
+                width: 100%;
+                max-width: 1200px;
+                margin:0 auto;
+            }
+            .nav>ul>li{
+                width: 380px;
+                position:relative;
+                cursor: pointer;
+            }
+            .nav>ul>li:not(:nth-last-child(1)){
+                border-bottom:1px solid #e6e6e6;
+            }
+            .nav>ul>li>div{
+                width: 380px;
+                padding:15px;
+                box-sizing: border-box;
+                background:#fff;
+                display: -webkit-flex;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .nav>ul>li>div>div{
+                width: 90%;
+            }
+            .nav>ul>li>div>div>h2{
+                font-size:18px;
+                line-height:18px;
+            }
+            .nav>ul>li>div>div>ul{
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex;
+                align-items: stretch;
+                margin-top:5px;
+                font-size:14px;
+                line-height:14px;
+
+            }
+            .nav>ul>li>div>div>ul>li{
+                padding:15px 20px 0 0;
+            }
+            .nav>ul>li>div>div>ul>li>a{
+                color:#000;
+            }
+            .nav>ul>li>div>div>ul>li>a:hover{
+                color:#0088cc;
+            }
+            .nav>ul>li>div:after{
+                content:'';
+                width: 15px;
+                height:15px;
+                display: block;
+                border:1px solid #999;
+                border-width: 1px 1px 0 0 ;
+                -webkit-transform: rotate(45deg);
+                -moz-transform: rotate(45deg);
+                -o-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
+            .nav>ul>li>ol{
+                position: absolute;
+                left:380px;
+                top:-1px;
+                display: none;
+                justify-content: flex-start;
+                align-items: stretch;
+                flex-wrap: wrap;
+                width: 385px;
+                padding:0 20px 20px 0;
+                background:#f6f9fd;
+                border-radius:0 5px 5px 0;
+                border:1px solid #bbb;
+                box-shadow: -2px 2px 3px rgba(0,0,0,.3);
+            }
+            .nav>ul>li>ol>li{
+                padding:20px 20px 0;
+            }
+            .nav>ul>li>ol>li>a{
+                font-size:14px;
+                line-height:14px;
+                color:#000;
+            }
+            .nav>ul>li>ol>li>a:hover{
+                color:#0088cc;
+            }
+            .nav>ul>li>ol:before{
+                position:absolute;
+                left:-7px;
+                top:0;
+                content:'';
+                height:79px;
+                width: 8px;
+                display: block;
+                background:#f6f9fd;
+            }
+            .nav>ul>li:hover>div{
+                background:#f6f9fd;
+                box-shadow: inset -2px -2px 3px rgba(0,0,0,.3);
+            }
+            .nav>ul>li:hover>ol{
+                display: -webkit-flex;
+                display: -moz-box;
+                display: -ms-flexbox;
+                display: flex;
+                z-index:1;
+            }
+        </style>
+        <div class="banner">
+            <div>
+                <div class="nav">
+                    <ul>
+                        <li>
+                            <div>
+                                <div>
+                                    <h2>亚洲</h2>
+                                    <ul>
+                                        <li><a href="#">泰国</a></li>
+                                        <li><a href="#">日本</a></li>
+                                        <li><a href="#">韩国</a></li>
+                                        <li><a href="#">马来西亚</a></li>
+                                        <li><a href="#">新加坡</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <ol>
+                                <li><a href="javascript:void(0);">日本</a></li>
+                                <li><a href="javascript:void(0);">泰国</a></li>
+                                <li><a href="javascript:void(0);">韩国</a></li>
+                                <li><a href="javascript:void(0);">马来西亚</a></li>
+                                <li><a href="javascript:void(0);">朝鲜</a></li>
+                                <li><a href="javascript:void(0);">越南</a></li>
+                                <li><a href="javascript:void(0);">老挝</a></li>
+                                <li><a href="javascript:void(0);">印度</a></li>
+                                <li><a href="javascript:void(0);">印度尼西亚</a></li>
+                                <li><a href="javascript:void(0);">缅甸</a></li>
+                            </ol>
+                        </li>
+                        <li>
+                            <div>
+                                <div>
+                                    <h2>欧洲</h2>
+                                    <ul>
+                                        <li><a href="#">法国</a></li>
+                                        <li><a href="#">德国</a></li>
+                                        <li><a href="#">英国</a></li>
+                                        <li><a href="#">意大利</a></li>
+                                        <li><a href="#">俄罗斯</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <ol>
+                                <li><a href="javascript:void(0);">法国</a></li>
+                                <li><a href="javascript:void(0);">德国</a></li>
+                                <li><a href="javascript:void(0);">英国</a></li>
+                                <li><a href="javascript:void(0);">意大利</a></li>
+                                <li><a href="javascript:void(0);">俄罗斯</a></li>
+                                <li><a href="javascript:void(0);">西班牙</a></li>
+                                <li><a href="javascript:void(0);">瑞士</a></li>
+                                <li><a href="javascript:void(0);">丹麦</a></li>
+                                <li><a href="javascript:void(0);">冰岛</a></li>
+                                <li><a href="javascript:void(0);">葡萄牙</a></li>
+                            </ol>
+                        </li>
+                        <li>
+                            <div>
+                                <div>
+                                    <h2>非洲</h2>
+                                    <ul>
+                                        <li><a href="#">埃及</a></li>
+                                        <li><a href="#">南非</a></li>
+                                        <li><a href="#">肯尼亚</a></li>
+                                        <li><a href="#">坦桑尼亚</a></li>
+                                        <li><a href="#">加纳</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <ol>
+                                <li><a href="javascript:void(0);">埃及</a></li>
+                                <li><a href="javascript:void(0);">南非</a></li>
+                                <li><a href="javascript:void(0);">肯尼亚</a></li>
+                                <li><a href="javascript:void(0);">坦桑尼亚</a></li>
+                                <li><a href="javascript:void(0);">加纳</a></li>
+                                <li><a href="javascript:void(0);">乌干达</a></li>
+                                <li><a href="javascript:void(0);">赞比亚</a></li>
+                                <li><a href="javascript:void(0);">纳米比亚</a></li>
+                                <li><a href="javascript:void(0);">马达加斯加</a></li>
+                                <li><a href="javascript:void(0);">多哥</a></li>
+                            </ol>
+                        </li>
+                        <li>
+                            <div>
+                                <div>
+                                    <h2>大洋洲</h2>
+                                    <ul>
+                                        <li><a href="#">澳大利亚</a></li>
+                                        <li><a href="#">新西兰</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <div>
+                                    <h2>美洲</h2>
+                                    <ul>
+                                        <li><a href="#">美国</a></li>
+                                        <li><a href="#">加拿大</a></li>
+                                        <li><a href="#">巴西</a></li>
+                                        <li><a href="#">墨西哥</a></li>
+                                        <li><a href="#">古巴</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <ol>
+                                <li><a href="javascript:void(0);">美国</a></li>
+                                <li><a href="javascript:void(0);">加拿大</a></li>
+                                <li><a href="javascript:void(0);">巴西</a></li>
+                                <li><a href="javascript:void(0);">墨西哥</a></li>
+                                <li><a href="javascript:void(0);">古巴</a></li>
+                                <li><a href="javascript:void(0);">阿根廷</a></li>
+                                <li><a href="javascript:void(0);">秘鲁</a></li>
+                                <li><a href="javascript:void(0);">哥伦比亚</a></li>
+                                <li><a href="javascript:void(0);">智利</a></li>
+                            </ol>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
