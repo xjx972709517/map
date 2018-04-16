@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Examples</title>
+</head>
+
+<body>
+    <canvas width="360" height="120"></canvas>
+    
+    <script src="context_blender.js"></script>
+    <script type="text/javascript">
+      // 先引入context_blender.js，然后……
+      // canvas绘制脚本
+      var canvas = document.querySelector('canvas');
+      var context = canvas.getContext('2d');
+      var width = canvas.width, height = canvas.height;
+      context.textBaseline = 'middle';
+      context.font = 'bold 60px "Microsoft Yahei"';
+      // 绘制方法
+      var draw = function () {    
+          context.clearRect(0, 0, width, height);
+          // 渐变和纹理
+          var gradient, pattern;
+          // 创建材质canvas
+          var canvasPattern = document.createElement('canvas');
+          var contextUnder = canvasPattern.getContext('2d');
+          canvasPattern.width = width;
+          canvasPattern.height = height;
+
+          // 创建渐变canvas
+          var canvasGradient = document.createElement('canvas');
+          var contextOver = canvasGradient.getContext('2d');
+          canvasGradient.width = width;
+          canvasGradient.height = height;
+          // 绘制渐变对象
+          gradient = contextOver.createLinearGradient(0, 0, 0, height);
+          gradient.addColorStop(0, 'red');
+          gradient.addColorStop(1, 'red');
+
+          // 纹理对象，img指纹理图片对象
+          var img = new Image();
+          img.src = 'pattern01.jpg';
+          pattern = contextUnder.createPattern(img, 'no-repeat');
+          contextUnder.fillStyle = pattern;
+          contextUnder.fillRect(0, 0, width, height);
+          // 应用渐变
+          contextOver.fillStyle = gradient;
+          contextOver.fillRect(0, 0, width, height);
+          // 叠加canvas
+          contextOver.blendOnto(contextUnder, 'overlay');
+
+          // 给当前context创建pattern
+          pattern = context.createPattern(canvasPattern, 'no-repeat');
+          
+          // 绘制文本
+          context.fillStyle = pattern;
+          context.fillText('画布纹理叠加', 0, 60);
+      };
+      draw()
+    </script>
+</body>
+</html>

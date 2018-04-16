@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Examples</title>
+    <style>
+        .pattern-overlay {
+            font-size: 60px;
+            font-family: 'microsoft yahei';
+            background-image: url(./pattern01.jpg); 
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+        }
+        .pattern-overlay > span {
+            position: absolute;
+            background-image: linear-gradient(to bottom, #f00, #f00);
+            mix-blend-mode: overlay;
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+        }
+        .pattern-overlay > span::before {
+            content: attr(data-text);    
+        }
+    </style>
+</head>
+
+<body>
+    <h2 class="pattern-overlay">
+        <span data-text="CSS纹理叠加"></span>
+        CSS纹理叠加
+    </h2>
+</body>
+</html>

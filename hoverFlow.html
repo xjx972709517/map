@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        html, body {
+            height: 92%;
+        }
+
+        html {
+            overflow: hidden;
+        }
+
+        .box {
+            margin: 0;
+            padding: 0;
+            height: 80%;
+            width: 100%;
+            margin: 10% auto 0;
+        }
+
+        .boxm {
+            width: 14.28%;
+            height: 100%;
+            position: relative;
+            float: left;
+            overflow: hidden;
+        }
+
+        img {
+            position: absolute;
+            width: 100%;
+            top: 80%;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+        window.onload = function () {
+            var arr = [];
+            var imgs = {};
+            for (var i = 0; i < $('.boxm').length; i++) {
+                //把每个img中间位置的水平坐标放在数组arr里
+                arr.push(($('.boxm').eq(i).offset().left) + ($('.boxm').width() / 2));
+                //把每个img打包成jquery对象放在imgs对象里做成一个对象合集，方便使用
+                //键：0,1,2,3,4,5,6
+                //值：打包好的jquery对象
+                //imgs {
+                // 0 : $(img0)
+                // 1 : $(img1)
+                // . : ..
+                // . : ..
+                // }
+                imgs[i] = $('#img' + i);
+            }
+            //每个对象定义一个属性flag作为节流阀，for in 循环让每个对象的节流阀初始状态关闭
+            for (var k in imgs) {
+                imgs[k].flag = false;
+            }
+            //鼠标移入大盒子，用100毫秒时间让每个img缓慢移到对应位置
+            $('.box').mouseenter(function (e) {
+                for (var i in imgs) {
+                    //每个对象定义一个属性t确定自己的位置：鼠标离自己中心水平位置越远，t越大
+                    imgs[i].t = (imgs[0].width() * 5 - Math.abs(arr[i] - e.pageX)) / 25;
+                    imgs[i].t = imgs[i].t > 0 ? imgs[i].t : 0;
+                    imgs[i].animate({
+                        'top': (80 - (imgs[i].t)) + '%'
+                    }, 100, function () {
+                        //animate函数回调函数让每个对象的节流阀打开，打开后鼠标移动事件才起作用
+                        imgs[$(this).parent().index()].flag = true;
+                    });
+                }
+            })
+            //鼠标移动事件
+            $('.box').mousemove(function (e) {
+                //for in 循环根据鼠标坐标确定每个对象的位置t
+                for (var i in imgs) {
+                    if (imgs[i].flag) {
+                        imgs[i].t = (imgs[0].width() * 5 - Math.abs(arr[i] - e.pageX)) / 25;
+                        imgs[i].t = imgs[i].t > 0 ? imgs[i].t : 0;
+                        imgs[i].css({
+                            'top': (80 - (imgs[i].t) ) + '%'
+                        });
+                    }
+                }
+            })
+            //鼠标移出事件
+            $('.box').mouseleave(function () {
+                //for in循环关闭每个对象的节流阀，让每个对象缓慢回到初始位置
+                for (var i in imgs) {
+                    imgs[i].flag = false;
+                    imgs[i].animate({'top': 80 + '%'}, 100);
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<div class="box">
+    <div class="boxm"><img id="img0" src="http://ww3.sinaimg.cn/mw690/df6cb486jw1fam5ij9j3kj20e70rw0ui.jpg" alt=""/></div>
+    <div class="boxm"><img id="img1" src="http://ww2.sinaimg.cn/mw690/df6cb486jw1fam5igyttbj20e70rwgmv.jpg" alt=""/></div>
+    <div class="boxm"><img id="img2" src="http://ww2.sinaimg.cn/large/df6cb486jw1fam5ijvycxj20e70rwt9y.jpg" alt=""/></div>
+    <div class="boxm"><img id="img3" src="http://ww2.sinaimg.cn/mw690/df6cb486jw1fam5igh5pij20e70rwmyc.jpg" alt=""/></div>
+    <div class="boxm"><img id="img4" src="http://ww1.sinaimg.cn/mw690/df6cb486jw1fam5iezl5xj20e70rwgmu.jpg" alt=""/></div>
+    <div class="boxm"><img id="img5" src="http://ww2.sinaimg.cn/mw690/df6cb486jw1fam5ig5fgij20e70rwwfp.jpg" alt=""/></div>
+    <div class="boxm"><img id="img6" src="http://ww2.sinaimg.cn/mw690/df6cb486jw1fam5iigtjjj20e70rw402.jpg" alt=""/></div>
+</div>
+</body>
+</html>
