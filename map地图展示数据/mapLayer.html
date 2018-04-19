@@ -29,7 +29,8 @@
     <script type="text/javascript" src="./mapv.js"></script>
 
     <script type="text/javascript">
-        import geojson from './china.json';
+        // import geojson from './china.json';
+            
         // 百度地图API功能
         var map = new BMap.Map("map", {
             enableMapClick: false
@@ -151,8 +152,9 @@
         });
 
         
-        console.log(geojson);
+        // console.log(geojson);
         $.get('./china.json', function(geojson) {
+            console.log(geojson);
 
             var geojsonOptions = {
                 gradient: {

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>对号</title>
+    <style>
+        span.right {
+            position: relative;
+            display: inline-block;
+            width: 140px;
+            height: 140px;
+        }
+        span.right:after {
+            box-sizing: content-box;
+            content: "";
+            border: 1px solid #409eff;;
+            border-left: 0;
+            border-top: 0;
+            height: 70px;
+            width: 30px;
+            left: 40px;
+            position: absolute;
+            top: 1px;
+            transform: rotate(45deg) scaleY(0);
+            transition: transform .15s cubic-bezier(.71,-.46,.88,.6) .05s;
+            transform-origin: center;
+            transform: rotate(45deg) scaleY(1);
+        }
+    </style>
+</head>
+
+<body>
+    <span class="right"></span>
+</body>
+</html>

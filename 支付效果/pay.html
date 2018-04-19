@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">   
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <title>KFC肯德基收银台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            font-family: '微软雅黑';
+            margin-top: 3%;
+        }
+
+        #box {
+            width: 1000px;
+            height: 600px;
+            border: 1px solid #BFBFBF;
+        }
+
+        .left {
+            width: 397px;
+            float: left;
+        }
+
+        .right {
+            width: 600px;
+            height: 100%;
+            float: right;
+            border-left: 1px solid #BFBFBF;
+        }
+
+        .todo div {
+            overflow: hidden;
+            margin: 8px;
+            float: left
+        }
+
+        .todo a {
+            width: 130px;
+            height: 30px;
+            line-height: 30px;
+            display: block;
+            text-align: center;
+            border: 1px solid #BFBFBF;
+            background: white;
+            border-radius: 2px;
+            cursor: pointer;
+            float: left;
+            font-size: 12px;
+        }
+
+        .one,
+        .two {
+            width: 100%;
+            height: 249px;
+            background: #F2F2F2
+        }
+
+        .one span {
+            display: block;
+            width: 100%;
+            height: 45px;
+            line-height: 45px;
+            background: rgba(32, 32, 32, 0.24)
+        }
+
+        .two span {
+            display: block;
+            width: 100%;
+            height: 45px;
+            line-height: 45px;
+            background: rgba(32, 32, 32, 0.24)
+        }
+
+        .sum {
+            width: 100%;
+            height: 45px;
+            line-height: 45px;
+            text-align: center;
+            border-bottom: 1px solid #DFE6EC;
+        }
+
+        .box {
+            margin: 20px 102px;
+        }
+
+        .pay {
+            margin: 25px 53px;
+        }
+
+        .kFC {
+            width: 160px;
+            height: 60px;
+            border: 1px solid #BFBFBF;
+            border-radius: 2px;
+            background: white;
+            padding: 4px;
+            float: left;
+            margin: 8px;
+            cursor: pointer;
+        }
+
+        .kFC img {
+            width: 60px;
+            height: 60px;
+            float: left;
+        }
+
+        .kFC a {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div class="right">
+            <el-tabs v-model="model">
+                <el-tab-pane label="配餐" name="pc">
+                    <div v-for="todo in todos" class="todo" @click="go(todo)">
+                        <div>
+                            <a>{{todo.name}} ￥{{todo.jiage}}</a>
+                        </div>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="超值套餐" name="tc">
+                    <div v-for="todotwo in todotwos" class="todotwo" @click="go(todotwo)">
+                        <div class="kFC">
+                            <img :src="todotwo.img" />
+                            <a>{{todotwo.name}}</a>
+                            <a>￥{{todotwo.jiage}}</a>
+                        </div>
+                    </div>
+                </el-tab-pane>
+            </el-tabs>
+
+        </div>
+        <div class="left">
+            <el-tabs v-model="activeName">
+                <el-tab-pane label="结账" name="jz">
+                    <el-table :data="list" border height="420">
+                        <el-table-column  prop="name" label="商品" width="130"></el-table-column>
+                        <el-table-column prop="jiage" label="价格" width="66"></el-table-column>
+                        <el-table-column prop="liang" label="数量" width="66"></el-table-column>
+                        <el-table-column prop="caozuo" label="操作">
+                            <template scope="scope">
+                                <el-button type="text" size="small" @click="go(scope.row)">添加</el-button>
+                                <el-button type="text" size="small" @click.native.prevent="delList(scope.$index, list)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <div class="sum">数量：<span>{{sl}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 总金额：<span>{{zongjia}}</span></div>
+                    <div class="box">
+                        <el-button type="success" style="width:80px;font-family: 微软雅黑;" @click="jiezhang">结账</el-button>
+                        <el-button type="danger" style="width:80px;font-family: 微软雅黑;" @click="del">删除</el-button>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="打赏" name="ds">
+                    <div class="pay">
+                        <div></div>
+                    </div>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
+    </div>
+</body>
+
+<script>
+    var vue = new Vue({
+        el: "#box",
+        data: {
+            activeName: 'jz',
+            model: 'pc',
+            list: [],
+            todos: [
+                { id: 1, name: '香辣鸡腿堡', jiage: '8', liang: '1' },
+                { id: 2, name: '芒果双旋冰淇淋', jiage: '6', liang: '1' },
+                { id: 3, name: '双酱大薯', jiage: '4', liang: '1' },
+                { id: 4, name: '薯条(小份)', jiage: '3', liang: '1' },
+                { id: 5, name: '薯条(大份)', jiage: '6', liang: '1' },
+                { id: 6, name: '可口可乐(小杯)', jiage: '4', liang: '1' },
+                { id: 7, name: '可口可乐(大杯)', jiage: '8', liang: '1' },
+                { id: 8, name: '土豆泥', jiage: '6', liang: '1' },
+                { id: 9, name: '蛋挞', jiage: '5', liang: '1' },
+                { id: 10, name: '香辣鸡翅', jiage: '5', liang: '1' },
+            ],
+            todotwos: [
+                { id:11, name: "儿童套餐", jiage: "18", img: "http://i02.pic.sogou.com/676553a3236a1985" },
+                { id:12, name: "双人套餐", jiage: "42", img: "http://i04.pic.sogou.com/790cd32d9f80808c" },
+                { id:13, name: "全家桶套餐", jiage: "64", img: "http://i01.pic.sogou.com/6376731d54ba59e8" },
+                { id:14, name: "超级神级套餐", jiage: "38", img: "http://i03.pic.sogou.com/09cd47d73cd577a6" },
+            ]
+        },
+        methods: {
+            go: function (todos) {
+                // vue.list.push(todos)
+
+                //判断是否数据是否重复
+                var have = false
+                for (var i = 0; i < this.list.length; i++) {
+                    if (this.list[i].id == todos.id) {
+                        have = true
+                    }
+                }
+
+                //如果数据已经存在那么数量加一
+                if (have) {
+                    var Arr = this.list.filter(o => o.id == todos.id);
+                    Arr[0].liang++
+                } else {
+                    let newGoods = { id: todos.id, name: todos.name, jiage: todos.jiage, liang: 1 };
+                    this.list.push(newGoods);
+                }
+            },
+
+            //删除单个商品
+            delList(index, rows) {
+                rows.splice(index, 1);
+            },
+
+            //结算总价格
+            jiezhang: function () {
+                if (this.list == "") {
+                    this.$message({ message: '这位员工,不能结账空数据的哦！', type: 'warning' });
+                } else {
+                    this.$message({ message: `恭喜你,结算了${this.zongjia}元！`, type: 'success' });
+                    this.list = []
+                }
+
+            },
+            //删除所有商品
+            del: function () {
+                if (this.list == "") {
+                    this.$message({ message: '并没有数据可以删除！！', type: 'warning' });
+                } else {
+                    this.list = []
+                    this.$message({ message: "删除成功！", type: 'success' });
+                }
+
+            }
+        },
+        //数量和总价格实时更新
+        computed: {
+            zongjia: function () {
+                var zongjia = 0;
+                for (var i in this.list) {
+                    zongjia += parseInt(this.list[i].jiage * this.list[i].liang)
+                }
+                return zongjia;
+            },
+            sl: function () {
+                var sl = 0;
+                for (var i in this.list) {
+                    sl += parseInt(this.list[i].liang)
+                }
+                return sl;
+            }
+        }
+    })
+
+</script>
+
+</html>
