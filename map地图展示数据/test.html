@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>国内航线线路图</title>
+    <link href="http://cache.amap.com/lbs/static/main1119.css" rel="stylesheet">
+</head>
+<body>
+<div id="container" class="container">
+</div>
+<script src="http://webapi.amap.com/loca?key=您申请的key值"></script>
+<script src="http://a.amap.com/Loca/static/mock/china_airline_routes.js"></script>
+<script>
+    var map = Loca.create('container', {
+        mapStyle: 'amap://styles/grey',
+        center: [108.149185, 33.663153],
+        zoom: 4
+    });
+
+    var layer = Loca.visualLayer({
+        container: map,
+        blendMode: 'lighter',
+        type: 'line',
+        shape: 'line'
+    });
+
+    layer.setData(chinaAirRoutes, {
+        lnglat: 'line'
+    });
+
+    layer.setOptions({
+        style: {
+            lineWidth: 0.3,
+            curveness: 0.2,
+            stroke: 'rgba(49, 80, 189, 0.2)'
+        }
+    });
+
+    layer.render();
+
+</script>
+</body>
+</html>

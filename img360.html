@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+
+        #container{
+            overflow:hidden;
+            position:relative;
+        }
+
+        #container div{
+            transition:all 700ms linear;
+        }
+
+        #container div:hover{
+            cursor:move;
+        }
+        img{
+            display:none;
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="container">
+        <div>
+            <img src="http://www.thepetedesign.com/demos/panorama_viewer/demo_photo.jpg"/>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        var div = container.querySelector('div');
+        var img = container.querySelector('img');
+        img.onload = function() {
+            div.style.background = "url(" + img.src +") repeat";
+            div.style.width = img.width + 'px';
+            div.style.height = img.height + 'px';
+        };
+        var moving = false;
+        var position = 0;
+        var start = 0;
+
+        var move = function(e) {
+            if (!moving) return;
+            var distance = e.clientX - start;
+            this.style.backgroundPosition = position + distance + 'px ' + '0px';
+        };
+        var down = function(e) {
+            start = e.clientX;
+            moving = true;
+        };
+        var up = function(e) {
+            position += e.clientX -start;
+            moving = false;
+        };
+        div.addEventListener('mousemove', move, false);
+        div.addEventListener('mousedown', down, false);
+        div.addEventListener('mouseup', up, false);
+    </script>
+
+</body>
+</html>

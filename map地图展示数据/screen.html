@@ -1,0 +1,190 @@
+<!-- 重点：loadAreaNode -->
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <!-- 原始地址：//webapi.amap.com/ui/1.0/ui/geo/DistrictExplorer/examples/simple-load.html -->
+    <!-- <base href="//webapi.amap.com/ui/1.0/ui/geo/DistrictExplorer/examples/" /> -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>单区域加载</title>
+    <style>
+    html,
+    body,
+    #container {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+    }
+    body {
+        width: 1920px;
+        height: 1080px;
+        transform: scale(0.804688);
+        transform-origin: left top 0px;
+    }
+    #container {
+        background: url(https://datav.oss-cn-hangzhou.aliyuncs.com/uploads/images/878f5030865a661b33f6cdef23534981.png) 0% 0% / 100% !important;
+    }
+
+    #container .amap-layer.amap-satellite {
+        filter: saturate(0%) hue-rotate(100deg) contrast(240.017%) brightness(52.751%);
+        transition: 0s;
+        opacity: 0.501134;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script src='http://webapi.amap.com/maps?v=1.4.5&key=305a340c4bebc3bfa0f35925a86837fe'></script>
+    <!-- UI组件库 1.0 -->
+    <script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+    <script type="text/javascript">
+    //创建地图
+    var map = new AMap.Map('container', {
+        // cursor: 'default',
+        // center: [125, 38],
+        layers: [new AMap.TileLayer.Satellite()],
+        zoom: 5
+    });
+    console.log(map);
+
+    //just some colors
+    var colors = [
+        "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
+        "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
+        "#651067", "#329262", "#5574a6", "#3b3eac"
+    ];
+
+    AMapUI.loadUI(['geo/DistrictExplorer'], function(DistrictExplorer) {
+
+        //创建一个实例
+        var districtExplorer = new DistrictExplorer({
+            map: map
+        });
+
+        
+        var adcode = 100000;
+
+        districtExplorer.loadAreaNode(adcode, function(error, areaNode) {
+
+            //更新地图视野
+            map.setBounds(areaNode.getBounds(), null, null, true);
+
+            //清除已有的绘制内容
+            districtExplorer.clearFeaturePolygons();
+
+            //绘制子区域
+            districtExplorer.renderSubFeatures(areaNode, function(feature, i) {
+
+                var fillColor = colors[i % colors.length];
+                var strokeColor = colors[colors.length - 1 - i % colors.length];
+
+                return {
+                    cursor: 'default',
+                    bubble: true,
+                    strokeColor: 'white', //线颜色
+                    strokeOpacity: 1, //线透明度
+                    strokeWeight: 1, //线宽
+                    fillColor: fillColor, //填充色
+                    fillOpacity: 0.35, //填充透明度
+                };
+            });
+
+            //绘制父区域
+            districtExplorer.renderParentFeature(areaNode, {
+                cursor: 'default',
+                bubble: true,
+                strokeColor: 'white', //线颜色
+                strokeOpacity: 1, //线透明度
+                strokeWeight: 1, //线宽
+                fillColor: null, //填充色
+                fillOpacity: 0.35, //填充透明度
+            });
+        });
+    });
+
+    // AMapUI.load(['ui/misc/PointSimplifier', 'lib/$'], function(PointSimplifier, $) {
+
+    //     if (!PointSimplifier.supportCanvas) {
+    //         alert('当前环境不支持 Canvas！');
+    //         return;
+    //     }
+
+    //     var pointSimplifierIns = new PointSimplifier({
+    //         map: map, //所属的地图实例
+
+    //         getPosition: function(item) {
+
+    //             if (!item) {
+    //                 return null;
+    //             }
+
+    //             var parts = item.split(',');
+
+    //             //返回经纬度
+    //             return [parseFloat(parts[0]), parseFloat(parts[1])];
+    //         },
+    //         getHoverTitle: function(dataItem, idx) {
+    //             return idx + ': ' + dataItem;
+    //         },
+    //         renderOptions: {
+    //             //点的样式
+    //             pointStyle: {
+    //                 width: 20,
+    //                 height: 20
+    //             }
+    //         }
+    //     });
+
+    //     window.pointSimplifierIns = pointSimplifierIns;
+
+    //     $('<div id="loadingTip">加载数据，请稍候...</div>').appendTo(document.body);
+    //     $.get('http://a.amap.com/amap-ui/static/data/10w.txt', function(csv) {
+
+    //         var data = csv.split('\n');
+
+    //         data = data.splice(0,30)
+
+    //         pointSimplifierIns.setData(data);
+
+    //         $('#loadingTip').remove();
+    //     });
+
+    //     pointSimplifierIns.on('pointClick pointMouseover pointMouseout', function(e, record) {
+    //         //console.log(e.type, record);
+    //     });
+    // });
+
+
+        // AMapUI.loadUI(['overlay/SvgMarker'], function(SvgMarker) {
+
+        //     if (!SvgMarker.supportSvg) {
+        //         //当前环境并不支持SVG，此时SvgMarker会回退到父类，即SimpleMarker
+        //     }
+
+        //     //创建一个shape实例，比如水滴状
+        //     var shape = new SvgMarker.Shape.Circle({
+        //         height: 20, //高度
+        //         width: 20, //不指定时会维持默认的宽高比
+        //         fillColor: 'orange', //填充色
+        //         strokeWidth: 1, //描边宽度
+        //         strokeColor: '#666' //描边颜色
+        //     });
+
+        //     //利用该shape构建SvgMarker
+        //     var marker = new SvgMarker(
+        //         //第一个参数传入shape实例
+        //         shape,
+        //         //第二个参数为SimpleMarker的构造参数（iconStyle除外）
+        //         {
+        //             showPositionPoint: false, //显示定位点
+        //             map: map,
+        //             position: [120,33]
+        //         }
+        //     );
+        // });
+    </script>
+</body>
+
+</html>

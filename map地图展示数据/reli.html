@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>行政区热力图</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <style type="text/css">
+        body {
+            width: 1920px;
+            height: 1080px;
+            transform: scale(0.804688);
+            transform-origin: left top 0px;
+        }
+        #container {
+            background: url(https://datav.oss-cn-hangzhou.aliyuncs.com/uploads/images/878f5030865a661b33f6cdef23534981.png) 0% 0% / 100% !important;
+        }
+
+        #container .amap-layer.amap-satellite {
+            filter: saturate(0%) hue-rotate(100deg) contrast(240.017%) brightness(52.751%);
+            transition: 0s;
+            opacity: 0.501134;
+        }
+    </style>
+</head>
+<body>
+<div id="container" class="container"></div>
+<script src='http://webapi.amap.com/maps?v=1.4.5&key=305a340c4bebc3bfa0f35925a86837fe'></script>
+<script src="http://webapi.amap.com/loca?key=305a340c4bebc3bfa0f35925a86837fe"></script>
+<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+<script src="http://a.amap.com/Loca/static/dist/jquery.min.js"></script>
+<script src="http://a.amap.com/Loca/static/mock/districts.js"></script>
+<script src="http://a.amap.com/Loca/static/mock/china_airline_routes.js"></script>
+<script>
+
+    $.get('http://a.amap.com/Loca/static/mock/tourist_attractions.csv', function (data) {
+
+        var map = Loca.create('container', {
+            features: ['bg', 'road'],
+            center: [115, 38.04],
+            layers: [new AMap.TileLayer.Satellite()],
+            zoom: 5
+        });
+
+        var layer = Loca.visualLayer({
+            container: map,
+            type: 'heatmap',
+            shape: 'district'
+        });
+
+        layer.setData(data, {
+            type: 'csv',
+            lnglat: '经纬度',
+            value: '景区数量'
+        });
+
+        // layer.setLayers([new AMap.TileLayer.Satellite()]);
+
+        layer.setOptions({
+            mode: 'count',
+            style: {
+                opacity: 0.5
+            }/*,
+            gradient: {
+                0.5: 'blue',
+                0.65: 'rgb(117,211,248)',
+                0.7: 'rgb(0, 255, 0)',
+                0.9: '#ffea00',
+                1.0: 'red'
+            }*/
+        });
+
+        layer.render();
+
+        var point = Loca.visualLayer({
+            container: map,
+            type: 'point',
+            shape: 'circle'
+        });
+
+        point.setData(chinaAirRoutes, {
+            lnglat: 'center'
+        });
+
+        // layer.setLayers([new AMap.TileLayer.Satellite()]);
+
+        point.setOptions({
+            style: {
+                radius: 15,
+                fill: 'rgba(100,100,233,0.6)',
+                lineWidth: 1,
+                stroke: '#eee'
+            }
+        });
+
+        point.render();
+
+
+    });
+
+    // var map = Loca.create('container', {
+    //     features: ['bg', 'road'],
+    //     center: [115, 38],
+    //     layers: [new AMap.TileLayer.Satellite()],
+    //     zoom: 5
+    // });
+
+    // var layer = Loca.visualLayer({
+    //     container: map,
+    //     type: 'point',
+    //     shape: 'circle'
+    // });
+
+    // layer.setData(districts, {
+    //     lnglat: 'center'
+    // });
+
+    // // layer.setLayers([new AMap.TileLayer.Satellite()]);
+
+    // layer.setOptions({
+    //     style: {
+    //         radius: 10,
+    //         fill: 'rgba(100,100,233,0.6)',
+    //         lineWidth: 1,
+    //         stroke: '#eee'
+    //     }
+    // });
+
+    // layer.render();
+
+</script>
+</body>
+</html>
