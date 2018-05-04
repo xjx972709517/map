@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>png图片是否含有透明像素</title>
+</head>
+
+<body>
+    <input id="file" type="file">
+    <div id="log"></div>
+    <script>
+    var eleFile = document.querySelector('#file');
+    // 压缩图片需要的一些元素和对象
+    var reader = new FileReader(), img = new Image();
+    // 选择的文件对象
+    var file = null;
+    // 是否含透明背景的标志量
+    var isAlphaBackground = false;
+
+    // 缩放图片需要的canvas
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+
+    // base64地址图片加载完毕后
+    img.onload = function () {
+        // 图片原始尺寸
+        var originWidth = this.width;
+        var originHeight = this.height;
+        // canvas尺寸设置
+        canvas.width = originWidth;
+        canvas.height = originHeight;
+        // 清除画布
+        context.clearRect(0, 0, originWidth, originHeight);
+        // 图片绘制在画布上
+        context.drawImage(img, 0, 0);
+        // 获取图片像素信息
+        var imageData = context.getImageData(0, 0, originWidth, originHeight).data;
+        // 检测有没有透明数据
+        isAlphaBackground = false;
+        for (var index = 3; index < imageData.length; index += 4) {
+            if (imageData[index] != 255) {
+                isAlphaBackground = true;
+                break;    
+            }
+        }
+        // isAlphaBackground就是最后石头有透明或半透明背景色的结果
+        // 提示
+        document.getElementById('log').innerHTML += ('图片' + (file.name || '') + (isAlphaBackground ? '有' : '没有') + '透明或半透明背景<br>');
+    };
+
+    // 文件base64化，以便获知图片原始尺寸
+    reader.onload = function(e) {
+        img.src = e.target.result;
+    };
+    eleFile.addEventListener('change', function (event) {
+        file = event.target.files[0];
+        // 选择的文件是图片
+        if (file.type.indexOf("image") == 0) {
+            reader.readAsDataURL(file);    
+        }
+    });
+    </script>
+</body>
+</html>
