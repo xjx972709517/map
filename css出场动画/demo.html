@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3出场动画！</title>
+    <style>
+    ul,li{padding: 0;margin:0;list-style:none;}
+    ul{width:90%;margin:0 auto;overflow: hidden; background:#f1f1f1}
+    .clearfix:after{content:'';display:block;font-size:0;line-height:0;height: 0;visibility: hidden;clear: both;}
+    ul li{float:left;display: inline;margin: 0 20px 20px 0; width:100px;height:100px; background: #666;}
+    ul[data-effect='slideRight'] li{position: relative;opacity: 0; animation: slideRight 600ms ease both ;animation-play-state:paused;}
+    ul[data-effect='slideRight'].play li{
+        animation-play-state: running;
+    }
+    @keyframes slideRight{
+        0%{opacity: 0;left: 100px; transform: scale(0.5);}
+        100%{opacity: 100;left:0; transform: scale(1);}
+    }
+    </style>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script>
+    $(function(){
+        $("ul[data-effect] li").each(function(i){
+            var $lng=$("ul[data-effect] li").length;
+            //$(this).attr("style","animation-delay:"+i*300+"ms");
+            // $(this).css({
+            //  animationDelay:+i*300+'ms'
+            // })
+            $(this).css("animationDelay",+i*300+'ms')
+            if(i==$lng-1){
+                $("ul[data-effect]").addClass('play')
+            }
+        })
+    })
+    </script>
+</head>
+<body>
+    <ul data-effect="slideRight" class="clearfix">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <script type="text/javascript">
+        var aLi = document.querySelectorAll('li');
+        var ul = aLi[0].parentNode;
+        [].forEach.call(aLi, function(element, index) {
+            element.style.animationDelay = index * 200 + 'ms';
+            ul.classList.add('play');
+        });
+    </script>
+</body>
+</html>

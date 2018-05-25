@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PDF报告</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+<style>
+
+    .right-aside{
+        width: 1045px;
+        margin-left: 15vh;
+    }
+    #main{
+        width: 1045px;
+        height: 630px;
+        margin: 0 auto;
+        background: url("image/aid.png")no-repeat;
+        background-size: 164px 50px;
+    }
+    #main .header{
+        border: 1px solid #000;
+        clear: both;
+        height: 170px;
+    }
+    #main .header div{
+        float: left;
+        width: 25%;
+    }
+    #main .header div p {
+        margin: 0 0 10px;
+    }
+    #main .header h2 {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .footer{
+        width: 1066px;
+        margin: 0 auto;
+        text-align: center;
+        color: #5d5d5d;
+    }
+    .footer div:nth-of-type(1){
+        width: 56%;
+        float: left;
+        text-align: right;
+    }
+    .footer div:nth-of-type(2){
+        width: 18%;
+        float: right;
+    }
+    .footer div:nth-of-type(3){
+        width: 20%;
+        float: right;
+    }
+    #print.btn,#download.btn{
+        width: 100px;
+        margin-top: 10px;
+        background: #ff812e;
+        color: #fff;
+    }
+    #download.btn {
+        background: #9accff;
+    }
+    /*打印时的样式*/
+    @media print{
+        .noprint{
+            display:none;
+        }
+        .right-aside{
+            margin-left: 0!important;
+        }
+    }
+
+</style>
+<body  >
+<!--startprint-->
+    <div class="right-aside">
+        <div id="main">
+            <div class="header">
+                <h2 style="">机构名称</h2>
+                <div>
+                    <p>姓名：<span id="name">XX</span></p>
+                    <p>性别：<span id="sex">XX</span></p>
+                    <p>年龄：<span id="age">XX</span></p>
+                </div>
+                <div>
+                    <p>报告编号：<span id="re_id">XX</span></p>
+                    <p>采集时间：<span id="c_time">XX</span></p>
+                    <p>上传时间：<span id="s_time">XX</span></p>
+                    <p>报告时间：<span id="b_time">XX</span></p>
+                </div>
+                <div>
+                    <p>诊断</p>
+                <span id="diagnose">
+                    诊断结论。。。。。
+                </span>
+                </div>
+                <div>
+                    <p>急救员：<span id="aid_man">XX</span></p>
+                    <p>报告医生：<span id="report_py">XX</span></p>
+                    <p>审核医生：<span id="audit_py">XX</span></p>
+                </div>
+            </div>
+            <div style="width: 100%;">
+                <canvas id="canvas_re" width="1064" height="453" style="background: #fff;margin: 0 auto;border: 1px solid red"> </canvas>
+            </div>
+        </div>
+        <div class="footer">
+            <div>此报告仅供临床参考</div>
+            <div> 增益：10mm/mV</div>
+            <div> 走纸速度：25mm/s</div>
+        </div>
+    </div>
+
+<!--endprint-->
+<div style="clear:both;"></div>
+    <div id="dpi" style="height: 1in; width: 1in; left: 100%; position: fixed; top: 100%;"></div>
+</body>
+<div>
+    <button id="print" class="noprint btn" onclick="javascript:window.print();">打印</button>
+    <button id="download" class="noprint btn">下载</button>
+</div>
+
+<!--js-->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+<!-- <script type="text/javascript" src="js/pdf_report.js"></script> -->
+<!--js-->
+
+<!--pdf_report.js 详情-->
+<script>
+    $(function () {
+    var wid = document.body.clientWidth;
+    var sub = (wid - 1045)/2;
+    $('.right-aside').css('margin-left',sub);
+    $('#print').css('margin-left',sub);
+    var dpi_x = document.getElementById('dpi').offsetWidth;     //每英寸的像素点
+    var px_1mm = dpi_x / 25.4;  //每毫米的像素点
+    var dy = 5 * px_1mm;
+    var dy_s = px_1mm;
+    var dx = 5 * px_1mm;
+    var dx_s = px_1mm;
+    var canvas_re = document.getElementById('canvas_re');
+    canvas_re.width = 1045;
+    canvas_re.height = 435;
+
+    //报告2.5秒关键帧画图
+    function pdf_report() {
+
+        //画网格线
+        if (canvas_re.getContext) {
+            var ctx = canvas_re.getContext("2d"), width, height;
+            width = canvas_re.width;
+            height = canvas_re.height;
+
+            var num_y = parseInt(height / dy) + 1;
+            var num_y_s = parseInt(height / dy_s) + 1;
+            var num_x = parseInt(width / dx) + 1;
+            var num_x_s = parseInt(width / dx_s) + 1;
+
+            //先画横线
+            for (var i = 0; i < num_y; i++) {
+                ctx.strokeStyle = '#ff4236';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(0, dy * i);
+                ctx.lineTo(width, dy * i);
+                ctx.stroke();
+            }
+          //再画纵线
+            for (var j = 0; j < num_x; j++) {
+                ctx.lineWidth = 1.5;
+                ctx.strokeStyle = '#ff4236';
+                //dashed
+                ctx.beginPath();
+
+                ctx.moveTo(dx * j, 0);
+                ctx.lineTo(dx * j, height);
+                ctx.stroke();
+
+            }
+
+            ctx.restore();
+
+        }
+
+    }
+
+    pdf_report();
+
+    //下载
+    $('#download').click(function () {
+
+        function aa() {
+            var target = document.getElementsByClassName("right-aside")[0]; //避免生成的PDF页面底部出现黑色背景
+            target.style.background = "#FFFFFF";
+
+            html2canvas(target, {
+                onrendered:function(canvas) {
+                    var contentWidth = canvas.width;
+                    var contentHeight = canvas.height;
+
+                    //一页pdf显示html页面生成的canvas高度;
+                    var pageHeight = contentWidth / 841.89 * 592.28 ;
+
+                    //未生成pdf的html页面高度
+                    var leftHeight = contentHeight;
+                    //页面偏移
+                    var position = 0;
+                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+                    //var imgWidth = 595.28;
+                    //var imgHeight = 592.28/contentWidth * contentHeight;
+                    var imgWidth = 841.89;
+                    var imgHeight = 841.89/contentWidth * contentHeight;
+
+                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
+                    //l表示横版，p：纵向 （默认纵向）
+                    var pdf = new jsPDF('l', 'pt', 'a4');
+
+                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                    //当内容未超过pdf一页显示的范围，无需分页
+                    if (leftHeight < pageHeight) {
+                        pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
+                    } else {
+                        while(leftHeight > 0) {
+                            pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight);
+                            leftHeight -= pageHeight;
+                            //position -= 841.89;
+                            position -=  595.28;
+                            //避免添加空白页
+                            if(leftHeight > 0) {
+                                pdf.addPage();
+                            }
+                        }
+                    }
+
+                    pdf.save("急救报告.pdf");
+                }
+            })
+        }
+        aa();
+
+    });
+});
+</script>
+</html>
