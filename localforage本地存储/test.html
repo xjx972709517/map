@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Examples</title>
+    <link rel="stylesheet" href="./Button.css">
+    <style type="text/css">
+        .demo img { max-width: 100%; }
+        #result:not(:empty)::before {
+            content: '这是之前上传的图片：';  
+            display: block;
+            width: fit-content;
+            background-color: rgba(0,0,0,.6);
+            color: #fff;
+            padding: 1px 4px;
+            font-size: 12px;
+        }
+        #result[upload]:not(:empty)::before {
+            content: '这是刚刚上传的图片：';  
+        }
+    </style>
+</head>
+
+<body>
+    <label class="ui-button ui-button-warning" for="fileImg">上传图片</label>
+    <input type="file" id="fileImg" accept="image/gif, image/jpeg, image/png" hidden> 
+    <p id="result"></p>
+
+    <script src="./localforage.min.js"></script>
+    <script type="text/javascript">
+        var eleResult = document.getElementById('result');
+        // 图片资源
+        var eleImg = document.createElement('img');
+        // 获取本地存储数据
+        localforage.getItem('zxxImg', function (err, value) {
+            console.log(err,value);
+            if (err == null && value) {
+                eleImg.src = value;
+                eleResult.appendChild(eleImg);
+            }
+        });
+        // 选择本地文件
+        var reader = new FileReader();
+        // 文件blob呈现
+        // 文件base64化，以便获知图片原始尺寸
+        reader.onload = function(event) {
+            if (!eleImg.src) {
+                eleResult.appendChild(eleImg);
+            }
+            eleResult.setAttribute('upload', 'true');
+            var blob = URL.createObjectURL(new Blob([event.target.result]));
+            eleImg.src = blob;
+            // blob本地存储
+            localforage.setItem('zxxImg', blob);
+        };
+        // 选择的文件对象
+        var file = null;
+        document.getElementById('fileImg').addEventListener('change', function (event) {
+            file = event.target.files[0];
+            // 选择的文件是图片
+            if (file.type.indexOf("image") == 0) {
+                reader.readAsArrayBuffer(file);    
+            }
+        });
+    </script>
+</body>
+</html>

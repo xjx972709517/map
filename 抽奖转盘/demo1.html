@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Rotation</title>
+</head>
+<style type="text/css">
+    *{padding:0;margin:0}
+    body{
+        text-align:center
+    }
+    .ly-plate{
+        position:relative;
+        width:509px;
+        height:509px;
+        margin: 50px auto;
+    }
+    .rotate-bg{
+        width:509px;
+        height:509px;
+        background:url(http://cdn.files.qdfuns.com/article/content/picture/201605/05/171333pg5geg4v9i940bwj.png);
+        position:absolute;
+        top:0;
+        left:0
+    }
+    .ly-plate div.lottery-star{
+        width:214px;
+        height:214px;
+        position:absolute;
+        top:150px;
+        left:147px;
+        /*text-indent:-999em;
+        overflow:hidden;
+        background:url(rotate-static.png);
+        -webkit-transform:rotate(0deg);*/
+        outline:none
+    }
+    .ly-plate div.lottery-star #lotteryBtn{
+        cursor: pointer;
+        position: absolute;
+        top:0;
+        left:0;
+        *left:-107px
+    }
+    .ttt{animation: _rotate 16s 0s cubic-bezier(0.6,0.1,0.15,0.7) 1 normal forwards;}
+</style>
+<style id=dynamic></style>
+<body>
+    <div class="ly-plate">
+        <div class="rotate-bg"></div>
+        <div class="lottery-star"><img src="http://cdn.files.qdfuns.com/article/content/picture/201605/05/171340d1o3jryhjey351we.png" id="lotteryBtn"></div>
+    </div>
+
+    <!-- <script src="js/jquery-1.7.2.min.js"></script> -->
+    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function(){                       
+            $('#lotteryBtn').on('click', function(){
+                //timer = setInterval(rotate,50);
+                reset();
+                setTimeout(function(){
+                var prize = parseInt(Math.random()*8)
+                var degree = 360*4 + prize*45 + 22.5;
+                var style = document.getElementById("dynamic")
+                style.innerHTML = '@keyframes _rotate{from{transform:rotate(0deg);/}to{transform:rotate('+degree+'deg);}}';
+                $('.rotate-bg').addClass('ttt');
+                }, 50)
+
+            })
+        });
+            var element = $('.rotate-bg');
+            var r = 0;
+            var i = 1;
+            function rotate(){
+                r += i;
+                //if( Math.abs(r) >= 25 ) i*=-1
+
+                if(r >= 55){
+                    stopRotate(4);
+                }else if(r >= 23){
+                    element.css({"transform": "rotate(" + (parseInt(22.5*r)) +"deg)"});
+                }else{
+                    element.css({"transform": "rotate(" + (parseInt(45*r)) +"deg)"});
+                }
+            }
+
+            function reset(){
+                $('.rotate-bg').removeClass('ttt');
+            }
+
+            function stopRotate(id){
+                clearInterval(timer);
+                r = r + parseInt(id);
+                element.css({"transform": "rotate(" + (parseInt(45*r) - 23) +"deg)"});
+                r = 0;
+                i = 1;
+            }
+    </script>
+</body>
+</html>
