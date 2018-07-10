@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="author" content="" />
+        <meta name="keywords" content="" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,shrink-to-fit=no" />
+        <title> 3d星空 </title>
+        <style>
+            body{background:#000;}
+            .wrap{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;}
+            .stars{position:absolute;left:0;top:0;width:100%;height:100%;background-image:radial-gradient(1px at 20px 30px,#FFF,rgba(255,255,255,0)),radial-gradient(2px at 30px 80px,#FFF,rgba(255,255,255,0)),radial-gradient(3px at 80px 160px,#FFF,rgba(255,255,255,0)),radial-gradient(1px at 160px 70px,#FFF,rgba(255,255,255,0)),radial-gradient(2px at 80px 100px,#FFF,rgba(255,255,255,0));background-size:200px 200px;background-repeat:repeat;}
+            .stars:nth-child(1){animation:stars-ani 30s linear infinite;}
+            .stars:nth-child(2){animation:stars-ani 40s linear infinite;background-size:150px 150px;}
+            .stars:nth-child(3){animation:stars-ani 50s linear infinite;background-size:250px 230px;}
+
+            @keyframes stars-ani{
+                0%{opacity:0,transform:scale3d(1,1,1);}
+                100%{opacity:.8;transform:scale3d(6,6,6);}
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="stars"></div>
+            <div class="stars"></div>
+            <div class="stars"></div>
+        </div>
+    </body>
+</html>
