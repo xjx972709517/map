@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>美国队长超质感盾牌</title>
+    <style>
+        *{margin:0; padding:0;}
+        canvas{display:block;}
+    </style>
+<head>
+<body>
+    <canvas id="screen">No canvas support!</canvas>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var width, height;
+
+        var canvas, c, radius, center_x, center_y;
+
+        var TABS = 8.0;
+        var NOTCHES = 40;
+
+        var pulseValue = 0;
+        var pulseAngle = 0;
+        var reactorAngle = 0;
+
+        var shineAngle = -150;
+
+        var mousex;
+        var mousey;
+
+        var colors = {
+            shieldBlue: function() {
+                col = c.createRadialGradient(center_x, center_y, 0, center_x, center_y, radius);
+                col.addColorStop(.3, "#576E8C");
+                col.addColorStop(1.0, "#123754");
+                return col;
+            },
+            starWhite: function() {
+                col = c.createRadialGradient(center_x, center_y, 0, center_x, center_y, radius);
+                col.addColorStop(.5, "#EEEEEE");
+                col.addColorStop(1.0, "#CCCCCC");
+                return col;
+            },
+            shieldRed: function() {
+                col = c.createRadialGradient(center_x, center_y, 0, center_x, center_y, width / 2);
+                col.addColorStop(.5, "#7D3C46");
+                col.addColorStop(.95, "#67252f");
+                col.addColorStop(1.0, "#36161B");
+                return col;
+            },
+            shineWhite: function(x, y, r) {
+                col = c.createRadialGradient(x, y, 0, x, y, r);
+                shineValue = 1.0;
+                col.addColorStop(.1, 'rgba(255, 255, 255, ' + shineValue + ')');
+                col.addColorStop(.2, 'rgba(255, 255, 255, ' + shineValue + ')');
+                col.addColorStop(1.0, "rgba(255, 255, 255, 0)");
+                return col;
+            },
+            baseMetal: function () { 
+                col = c.createRadialGradient(center_x, center_y, 0, center_x, center_y, radius);
+                col.addColorStop(0.9, '#999999');
+                col.addColorStop(.95, '#777777');
+                col.addColorStop(1.0, '#444444');
+                return col;
+            },
+            armorNormal: function() {
+                return "rgba(72, 87, 92, " + pulseValue + ")";
+            },
+            armorDark: function() {
+                return "rgba(33, 38, 42, " + pulseValue + ")";
+            },
+            armorLight: function() {
+                return "#661819";
+            },
+            armor: function() {
+                col = c.createRadialGradient(center_x, center_y, 0, center_x, center_y, width * .5);
+                col.addColorStop(1.0, colors.armorDark());
+                col.addColorStop(.5, colors.armorNormal());
+                return col;
+            }
+        }
+
+        function Point(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        function update() {
+            pulseAngle += Math.PI / 180;
+            pulseValue = Math.abs(Math.sin(pulseAngle) / 4) + .2;
+
+            //shineAngle += Math.PI / 50;
+            shineValue = Math.abs(Math.sin(shineAngle));
+            clear();
+            draw();
+            requestAnimFrame(update);
+        }
+
+        window.requestAnimFrame = (function(){
+            return  window.requestAnimationFrame       || 
+                    window.webkitRequestAnimationFrame || 
+                    window.mozRequestAnimationFrame    || 
+                    window.oRequestAnimationFrame      || 
+                    window.msRequestAnimationFrame     || 
+            function(callback){
+                window.setTimeout(callback, 1000 / 60);
+            };
+        })();
+
+        $(document).mousemove(function(e) {
+            mousex = e.pageX;
+            mousey = e.pageY;
+        });
+
+        $(document).ready(function() {
+            c = $("canvas")[0].getContext('2d');
+            init();
+            update();
+        });
+
+        $(window).resize(function() {
+            init();
+        });
+
+        function init() {
+            width = $(window).width();
+            height = $(window).height();
+            radius = width / 2 * .4;
+            center_x = width / 2;
+            center_y = height / 2;
+            mousex = center_x;
+            mousey = center_y;
+            $("#screen").attr("width", width).attr("height", height);
+        }
+
+        // Drawing functions
+        function draw() {
+            chestPlate();
+            shield();
+        }
+
+        function clear() {
+            c.fillStyle = "#000000";
+            c.fillRect(0, 0, width, height);
+        }
+
+        function chestPlate() {
+            c.fillStyle = colors.armor();
+            c.fillRect(0, 0, width, height);
+        }
+
+        function drawFivePointStar(x, y, r, fill, stroke, strokew) {
+            step = Math.PI * 2 / 10;
+            c.beginPath();
+            c.strokeStyle = stroke;
+            c.fillStyle = fill;
+            c.lineWidth = strokew;
+            for (i = 0; i < 11; i++) {
+                an = i * step - Math.PI / 10;
+                tr = (i % 2 === 0 ? r : r * 2 / 5) - strokew * 2;
+                c.lineTo(x + Math.cos(an) * tr, y + Math.sin(an) * tr);
+            }
+            c.closePath();
+            c.stroke();
+            c.fill();
+        }
+
+        function drawAsterisk(x, y, r, s, color, lwidth) {
+            step = Math.PI * 2 / s;
+            c.lineWidth = 2;
+            c.strokeStyle = color;
+            for (i = 0; i < s; i++) {
+                an = i * step + Math.PI / 2;
+                c.beginPath();
+                c.moveTo(x, y);
+                c.lineTo(x + Math.cos(an) * r, y + Math.sin(an) * r);
+                c.stroke();
+                c.closePath();
+            }
+        }
+
+        function drawHighlightGradient(x, y, r, o) {
+            thex = center_x - (center_x - mousex);
+            they = center_y - (center_y - mousey);
+            col = c.createRadialGradient(thex, they, 0, thex, they, r);
+            col.addColorStop(0.4, "rgba(0, 0, 0, 0)");
+            col.addColorStop(.95 - Math.abs(thex) / width / 10, "rgba(0, 0, 0, " + (o) + ")");
+            col.addColorStop(1.0, "rgba(0, 0, 0," + (o + 0.3) + ")");
+            c.fillStyle = col;
+            c.beginPath();
+            c.arc(x, y, r + 2, 0, Math.PI * 2, false);
+            c.fill();
+            c.closePath();
+        }
+
+        function brushMetalCircle(x, y, r, o) {}
+
+        function shine(x, y, r) {
+            x = x;
+            y = y;
+            c.fillStyle = colors.shineWhite(x, y, r);
+            c.beginPath();
+            c.arc(x, y, r, 0, Math.PI * 2, false);
+            c.fill();
+            c.closePath();
+        }
+
+        function shield() {
+            outerRadius = width / 2;
+            c.save();
+            c.shadowOffsetX = 0;
+            c.shadowOffsetY = 0;
+            c.shadowBlur = .0125 * outerRadius;
+            c.shadowColor = "#000000";
+
+            // Outer Red
+            c.beginPath();
+            c.fillStyle = colors.shieldRed();
+            c.arc(center_x, center_y, outerRadius, 0, Math.PI * 2, false);
+            c.fill();
+            c.closePath();
+
+            // Outer Red
+            c.beginPath();
+            c.fillStyle = colors.starWhite();
+            c.arc(center_x, center_y, outerRadius * .8, 0, Math.PI * 2, false);
+            c.fill();
+            c.closePath();
+
+            // Outer Red
+            c.beginPath();
+            c.fillStyle = colors.shieldRed();
+            c.arc(center_x, center_y, outerRadius * .6, 0, Math.PI * 2, false);
+            c.fill();
+            c.closePath();
+
+            // Blue
+            c.beginPath();
+            c.fillStyle = colors.shieldBlue();
+            c.arc(center_x, center_y, radius, 0, Math.PI * 2, false);
+            c.fill();
+            c.closePath();
+            c.restore();
+
+            // Star
+            drawFivePointStar(center_x, center_y, radius, colors.starWhite(), 'rgba(0, 0, 0, 0)', 4);
+
+            //drawAsterisk(center_x, center_y - 2, radius * 2 * .83 / 5, 5, "#CCCCCC", outerRadius / 320);
+            //drawFivePointStar(center_x, center_y - 2, radius * .85, 'rgba(0, 0, 0, 0)', "#CCCCCC", outerRadius / 214);
+
+            drawFivePointStar(center_x, center_y, radius * .85, 'rgba(0, 0, 0, 0)', "#DDDDDD", outerRadius / 320);
+            drawAsterisk(center_x, center_y, radius * 2 * .83 / 5, 5, "#DDDDDD", outerRadius / 320);
+
+            //shine(center_x - Math.cos(shineAngle) * radius, center_y - Math.sin(shineAngle) * radius, radius / 2);
+            drawHighlightGradient(center_x, center_y, outerRadius, .6);
+        }
+    </script>
+</body>
+</html>

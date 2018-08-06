@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        .ad {
+            position: fixed;
+        }
+        ul {
+            position: relative;
+            visibility: hidden;
+        }
+        li:empty {
+            /* 撑开高度，实际开发请使用类名控制，这里精简HTML才使用:empty */
+            height: 576px;
+        }
+        li:not(:empty) {
+            visibility: visible;
+        }
+    </style>
+<head>
+<body>
+    <a href="#" class="ad">
+        <img src="./ad.jpg">
+    </a>
+    <ul>
+        <li><p><img src="./mm1.jpg"></p></li>
+        <li><p><img src="./mm6.jpg"></p></li>
+        <li></li> <!-- 撑开高度 -->
+        <li><p><img src="./mm3.jpg"></p></li>
+        <li><p><img src="./mm4.jpg"></p></li>
+    </ul>
+</body>
+</html>

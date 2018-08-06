@@ -1,0 +1,100 @@
+<html>
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <style type="text/css">
+        *{
+            padding:0;
+            margin:0;
+        }
+        .container{
+            width: 60%;
+            margin:30px auto;
+            position: relative;
+        }
+        .container img{
+            width: 100%;
+            display: block;
+            filter:blur(15px);
+            box-shadow: 0 0 10px #666
+        }
+        canvas{
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0
+        }
+        .button{
+            position: absolute;
+            right: 40px;
+            bottom: 50px;
+            background-color: #1d180e;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 10px 20px;
+            width: 200px;
+            box-shadow: 2px 2px 0 2px #29241a
+        }
+
+        #reset-button{
+            left: 40px
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="1.png"/>
+        <canvas></canvas>
+        <a href="javascript:void(0)" class="button" id="reset-button">RESET</a>
+            <a href="javascript:void(0)" class="button" id="show-button">SHOW</a>
+    </div>
+    <script type="text/javascript">
+        window.onload=function(){
+            var cvs=document.getElementsByTagName("canvas")[0];
+            var img=document.getElementsByTagName("img")[0];
+            var button=document.getElementsByTagName("a");
+            var ctx=cvs.getContext("2d");
+            var clippingRegion={x:0,y:0,r:0}
+            var image={};
+            var timer=null;
+            image.src="./1.png";
+            cvs.width=img.width;
+            cvs.height=img.height;
+
+            init();
+
+            function init(){
+                clippingRegion={x:(Math.random()*(cvs.width-100))+50,y:(Math.random()*(cvs.height-100))+50,r:50};
+                drawImage();
+            }
+            function drawImage(){
+                ctx.clearRect(0,0,cvs.width,cvs.height);
+                ctx.save();
+                clip(clippingRegion);
+                ctx.drawImage(img,0,0,img.width,img.height);
+                ctx.restore();
+            }
+            function clip(clippingRegion){
+                ctx.beginPath();
+                ctx.arc(clippingRegion.x,clippingRegion.y,clippingRegion.r,0,Math.PI*2,false);
+                ctx.clip();
+            }
+            button[0].onclick=function(){
+                init();
+            }
+            button[1].onclick=function(){
+                timer=setInterval(function(){
+                    if(clippingRegion.r>cvs.width){
+                        clearInterval(timer);
+                    }
+                    clippingRegion.r+=30;
+                    drawImage()
+                },30)
+            }
+
+        }
+    </script>
+</body>
+</html>

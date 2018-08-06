@@ -1,0 +1,356 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8">
+    <title>css特效</title> 
+    <style type="text/css">
+        #content {
+            height: auto;
+            overflow: hidden;
+            padding: 50px 0;
+        }
+        
+        .box {
+            width: 200px;
+            height: 200px;
+            float: left;
+            padding: 10px;
+            margin: 10px 20px;
+            color: #333;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .box.opacityBorder {
+            background: url(http://7s1r1c.com1.z0.glb.clouddn.com/t_sample.jpg) no-repeat;
+            background-size: 100% 100%;
+            overflow: hidden;
+        }
+        
+        .box.opacityBorder>div {
+            margin: 25px;
+            width: 150px;
+            height: 150px;
+            border: 10px solid hsla(0, 0%, 100%, .5);
+            background: white;
+            background-clip: padding-box;
+        }
+        
+        .shadow {
+            background: yellowgreen;
+            box-shadow: 0 0 0 10px #655, 0 0 0 15px deeppink, 0 2px 5px 15px rgba(0, 0, 0, .6);
+        }
+        
+        .outline {
+            background: yellowgreen;
+            border: 10px solid #655;
+            outline: 5px dashed deeppink;
+            outline-offset: 10px;
+        }
+        
+        .backgroundOffset {
+            background: #58a url(http://7s1r1c.com1.z0.glb.clouddn.com/t_sample.jpg) no-repeat;
+            background-size: 50px 50px;
+            background-position: right 20px bottom 10px;
+        }
+        
+        .linearGradient {
+            background: linear-gradient(#fb3 50%, #58a 0);
+            background-size: 100% 30px;
+        }
+        
+        .linearGradient2 {
+            background: linear-gradient(to right, #fb3 50%, #58a 0);
+            /* to right == 90deg */
+            background-size: 30px 100%;
+        }
+        
+        .linearGradient3 {
+            background: linear-gradient(45deg, #fb3 25%, #58a 0, #58a 50%, #fb3 0, #fb3 75%, #58a 0);
+            background-size: 30px 30px;
+        }
+        
+        .linearGradient4 {
+            background: repeating-linear-gradient(60deg, #fb3, #fb3 15px, #58a 0, #58a 30px)
+        }
+        
+        .grid {
+            background: white;
+            background-image: linear-gradient(90deg, rgba(200, 0, 0, .5) 50%, transparent 0), linear-gradient( rgba(200, 0, 0, .5) 50%, transparent 0);
+            background-size: 30px 30px;
+        }
+        
+        .circle {
+            border-radius: 50%;
+            background: yellowgreen;
+        }
+        
+        .ellipse {
+            border-radius: 50%;
+            background: yellow;
+            height: 150px;
+            margin-top: 55px;
+        }
+        
+        .ellipse2 {
+            border-radius: 50% / 100% 100% 0 0;
+            background: yellow;
+            height: 150px;
+            margin-top: 60px;
+        }
+        
+        .ellipse3 {
+            border-radius: 100% 0 0;
+            background: yellow;
+            height: 150px;
+            margin-top: 50px;
+            padding-top: 50px;
+        }
+        
+        .paral {
+            position: relative;
+            height: 50px;
+            margin-top: 150px;
+        }
+        
+        div.paral::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            background: #58a;
+            transform: skew(-45deg);
+        }
+        
+        .picture {
+            transform: rotate(45deg);
+            overflow: hidden;
+        }
+        
+        .picture> img {
+            max-width: 100%;
+            transform: rotate(-45deg) scale(1.42);
+        }
+        
+        .picture2 img {
+            max-width: 100%;
+            -webkit-clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+        }
+        
+        .corner {
+            background: linear-gradient(-45deg, transparent 15px, #58a 0);
+        }
+        
+        .corner2 {
+            background: linear-gradient(135deg, transparent 15px, #58a 0) top left, linear-gradient(-135deg, transparent 15px, #58a 0) top right, linear-gradient(-45deg, transparent 15px, #58a 0) bottom right, linear-gradient(45deg, transparent 15px, #58a 0) bottom left;
+            background-size: 50% 50%;
+            background-repeat: no-repeat;
+        }
+        
+        .corner3 {
+            background: radial-gradient(circle at top left, transparent 15px, #58a 0) top left, radial-gradient(circle at top right, transparent 15px, #58a 0) top right, radial-gradient(circle at bottom right, transparent 15px, #58a 0) bottom right, radial-gradient(circle at bottom left, transparent 15px, #58a 0) bottom left;
+            background-size: 50% 50%;
+            background-repeat: no-repeat;
+        }
+        
+        .tab {
+            position: relative;
+            padding: .5em 1em .35em;
+            color: white;
+        }
+        
+        .tab::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            background: #58a;
+            transform: perspective(.5em) rotateX(5deg);
+            transform-origin: bottom;
+        }
+        
+        .shadow2 {
+            background: yellowgreen;
+            box-shadow: 0 7px 4px -4px #fff;
+        }
+        
+        .shadow3 {
+            background: yellowgreen;
+            box-shadow: 7px 0 5px -4px #fff, -7px 0 5px -4px #fff;
+        }
+        
+        .shadow4 {
+            filter: drop-shadow(2px 2px 7px rgba(255, 255, 255, .5));
+        }
+        
+        .filter> img {
+            width: 100%;
+            height: 100%;
+            transition: .5s filter;
+            filter: sepia(1) saturate(4) hue-rotate(295deg);
+        }
+        
+        .filter> img:hover {
+            filter: none;
+        }
+        
+        .tinted-image {
+            background-image: url(http://7s1r1c.com1.z0.glb.clouddn.com/t_sample.jpg);
+            background-size: cover;
+            background-color: hsl(335, 100%, 50%);
+            background-blend-mode: luminosity;
+            transition: .5s background-color;
+            color: #fff;
+        }
+        
+        .tinted-image:hover {
+            background-color: transparent;
+        }
+        
+        .g.box,
+        .glass::before {
+            background: url(http://7s1r1c.com1.z0.glb.clouddn.com/t_sample.jpg) 0 / cover fixed
+        }
+        
+        .glass::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            filter: blur(20px);
+        }
+        
+        .glass {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background: hsla(0, 0%, 100%, .3);
+            overflow: hidden;
+        }
+        
+        .angle {
+            background-color: yellowgreen;
+            background: linear-gradient(to left bottom, transparent 50%, rgba(0, 0, 0, .4) 0) no-repeat 100% 0 / 2em 2em, linear-gradient(-135deg, transparent 1.5em, #58a 0);
+        }
+        
+        .hyphens {
+            background: yellowgreen;
+        }
+        
+        .ban {
+            padding: .5em;
+            line-height: 1.5;
+            background: beige;
+            background-size: auto 3em;
+            background-origin: content-box;
+            background-image: linear-gradient(rgba(0, 0, 0, .2) 50%, transparent 0);
+        }
+        .underline {
+            display:inline-block;
+          background: linear-gradient(red,red) no-repeat;
+          background-size: 100% 1px;
+          background-position: 0 1.15em;
+        }
+        .underline2 {
+            display:inline-block;
+          background: linear-gradient(90deg,red 50%, transparent 0) repeat-x;
+          background-size: .2em 1px;
+          background-position: 0 1.15em;
+        }
+        .underline3 {
+            display:inline-block;
+          background: linear-gradient(-45deg,transparent 40%, red 0,red 60%, transparent 0) 0 1em,
+                      linear-gradient(45deg,transparent 40%, red 0,red 60%, transparent 0) .1em 1em;
+          background-size: .2em .1em;
+          background-repeat: repeat-x;
+        }
+        .letterpress{
+            background: hsl(210, 13%, 40%);
+            color: hsl(210, 13%, 75%);
+            text-shadow: 0 -1px 1px black;
+        }
+        .highlight {
+            color: #ffc;
+            text-shadow: 0 0 .2em, 0 0 .3em;
+        }
+        .extruded {
+            color: white;
+            text-shadow: 0 1px hsl(0,0%,85%),
+               0 2px hsl(0,0%,80%),
+               0 3px hsl(0,0%,75%),
+               0 4px hsl(0,0%,70%),
+               0 5px hsl(0,0%,65%),
+               0 5px 10px black;
+        }
+    </style>
+</head> 
+<body> 
+    <div class="box opacityBorder">
+        <div class="">半透明边框</div>
+    </div>
+    <div class="box shadow">多重边框</div>
+    <div class="box outline">outline两层边框</div>
+    <div class="box backgroundOffset">背景定位</div>
+    <div class="box linearGradient">水平条纹</div>
+    <div class="box linearGradient2">垂直条纹</div>
+    <div class="box linearGradient3">斜向条纹</div>
+    <div class="box linearGradient4">60度斜向条纹</div>
+    <div class="box grid">桌布网格</div>
+    <div class="box circle">圆形</div>
+    <div class="box ellipse">椭圆</div>
+    <div class="box ellipse2">半椭圆</div>
+    <div class="box ellipse3">四分之一椭圆</div>
+    <div class="box paral">平行四边形</div>
+    <div class="box picture">
+        <img src="http://7s1r1c.com1.z0.glb.clouddn.com/t_sample.jpg" alt="">
+    </div>
+    <div class="box picture2">
+        <img src="http://7s1r1c.com1.z0.glb.clouddn.com/t_sample.jpg" alt="">
+    </div>
+    <div class="box corner">切角</div>
+    <div class="box corner2">多个切角</div>
+    <div class="box corner3">弧度切角</div>
+    <div class="box tab">梯形</div>
+    <div class="shadow2 box">单侧投影</div>
+    <div class="shadow3 box">双侧投影</div>
+    <div class="box corner2 shadow4">不规则投影</div>
+    <div class="box filter">
+        <img src="http://7s1r1c.com1.z0.glb.clouddn.com/t_sample.jpg" alt="">
+    </div>
+    <div class="box tinted-image">染色效果</div>
+    <div class="box g">
+        <div class="glass">毛玻璃的效果</div>
+    </div>
+    <div class="box angle">45度折角</div>
+    <div class="box hyphens">
+        The only way to get rid of a temptation is to yield to it;
+    </div>
+    <div class="box ban">
+        <pre>if(true) {
+            smile();
+        } else if(false){
+            cry();
+        }
+        </pre>
+    </div>
+    <div class="box" style="background:yellowgreen">
+        <p class="underline">实线下划线</p>
+        <p class="underline2">虚线下划线</p>
+        <p class="underline3">虚线下划线</p>
+    </div>
+    <div class="box" style="background:hsl(210, 13%, 40%)">
+        <p class="letterpress">凸板印刷效果</p>
+        <p class="highlight">文字外发光效果</p>
+        <p class="extruded">文字凸起效果</p>
+    </div>
+</body> 
+</html>

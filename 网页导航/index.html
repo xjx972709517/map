@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>网页导航特效</title>
+    <style type="text/css">
+        *{margin:0; padding:0;}
+        body{font-size:12px; font-family:"微软雅黑","宋体";}
+        a{color:#666; text-decoration:none;}
+        ul,li{list-style:none;}
+
+        #content{width:990px; margin:0 auto;}
+
+        #content h1{height:40px; font-size:20px; line-height:40px; padding-left:20px;}
+        .item{width:970px; height:600px; margin:10px auto 0; border:1px solid #FFCC99;}
+        .item h2{height:34px; line-height:34px; font-size:16px; padding-left:26px;}
+        .item ul{width:100%;}
+        .item li{width:300px; height:250px; float:left; border:1px solid #9999FF; margin:10px 0 0 10px; line-height:250px; text-align:center;}
+
+        #menu{position:fixed; left:50%; margin-left:495px; top:250px;}
+
+        #menu ul{border:1px solid #FF9966;}
+
+        #menu li a{display:block; width:60px; height:30px; border-bottom:1px solid #FF9966; line-height:30px; text-align:center;}
+
+        #menu li a.hover,#menu li a:hover{ background:#0066FF; color:#fff;}
+    </style>
+</head>
+
+<body>
+    <div id="menu">
+        <ul>
+            <li><a href="#item1" class="hover">1F 男装</a></li>
+            <li><a href="#item2">2F 女装</a></li>
+            <li><a href="#item3">3F 美妆</a></li>
+            <li><a href="#item4">4F 母婴</a></li>
+            <li><a href="#item5">5F 数码</a></li>
+        </ul>
+    </div>
+    <div id="content">
+        <h1>二手资源网</h1>
+        <div id="item1" class="item">
+            <h2>1F 男装</h2>
+            <ul>
+                <li><a href="#">男装</a></li>
+                <li><a href="#">男装</a></li>
+                <li><a href="#">男装</a></li>
+                <li><a href="#">男装</a></li>
+                <li><a href="#">男装</a></li>
+                <li><a href="#">男装</a></li>
+            </ul>
+        </div>
+        <div id="item2" class="item">
+            <h2>2F 女装</h2>
+            <ul>
+                <li><a href="#">女装</a></li>
+                <li><a href="#">女装</a></li>
+                <li><a href="#">女装</a></li>
+                <li><a href="#">女装</a></li>
+                <li><a href="#">女装</a></li>
+                <li><a href="#">女装</a></li>
+            </ul>
+        </div>
+        <div id="item3" class="item">
+            <h2>3F 美妆</h2>
+            <ul>
+                <li><a href="#">美妆</a></li>
+                <li><a href="#">美妆</a></li>
+                <li><a href="#">美妆</a></li>
+                <li><a href="#">美妆</a></li>
+                <li><a href="#">美妆</a></li>
+                <li><a href="#">美妆</a></li>
+            </ul>
+        </div>
+        <div id="item4" class="item">
+            <h2>4F 母婴</h2>
+            <ul>
+                <li><a href="#">母婴</a></li>
+                <li><a href="#">母婴</a></li>
+                <li><a href="#">母婴</a></li>
+                <li><a href="#">母婴</a></li>
+                <li><a href="#">母婴</a></li>
+                <li><a href="#">母婴</a></li>
+            </ul>
+        </div>
+        <div id="item5" class="item">
+            <h2>5F 数码</h2>
+            <ul>
+                <li><a href="#">数码</a></li>
+                <li><a href="#">数码</a></li>
+                <li><a href="#">数码</a></li>
+                <li><a href="#">数码</a></li>
+                <li><a href="#">数码</a></li>
+                <li><a href="#">数码</a></li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $(window).scroll(function(){
+                var menu = $("#menu");//保存menu节点
+                var items = $("#content").find(".item");//保存item数组
+                var cId = "";//保存item id
+                var top = $(document).scrollTop();//得到滚动条距离文档顶端的距离
+                items.each(function(){
+                    var cItem = $(this);//得到每一个当前item
+                    var cTop = cItem.offset().top;//得到每一个当前item距离文档顶部的高度
+                    if(top>cTop-200){
+                        cId = "#"+cItem.attr("id");//得到当前楼层的id,然后再把这个id值同的导航项添加class .hover
+                    }else{
+                        return false;
+                    }
+
+                });
+                var cAnchor = menu.find(".hover");//获得导航条中class=hover的标签
+                if(cId && cAnchor.attr("href") != cId ){//如果当前id不为空也不等于导航条中的.hover的a的href值相同，改变
+                    cAnchor.removeClass("hover");
+                    menu.find("[href="+cId+"]").addClass("hover");
+                }
+
+            });
+        });
+    </script>
+</body>
+</html>

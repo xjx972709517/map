@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <style>
+        *{margin:0;padding:0;}
+        .out{
+            width: 800px;
+            margin: 50px auto;
+            position: relative;
+        }
+        .out p{
+            font-size: 24px;
+            color: red;
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .out button{
+            color: green;
+            font-style: 18px;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 5%;
+            border: none;
+            background: none;
+            outline: none;
+            border: 1px solid green;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+        #cvs1{
+            background: #eee;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="out">
+    <button>清除</button>
+    <canvas id="cvs1" width="800" height="800"></canvas>
+</div>
+<script>
+    var cvs=document.getElementById('cvs1'),
+        ctx=cvs.getContext('2d'),
+        l=cvs.getBoundingClientRect().left,
+        t=cvs.getBoundingClientRect().top;
+
+    ctx.beginPath();
+    ctx.fillStyle="#eee";
+    ctx.fillRect(0,0,800,800);
+    ctx.closePath();
+
+    cvs.onmousedown=function(ev){
+        var ev=ev||window.event,
+            x=ev.clientX-l,
+            y=ev.clientY-t;
+
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+
+        document.onmousemove=function(ev){
+            var ev=ev||window.event,
+                dx=ev.clientX-l;
+                dy=ev.clientY-t;
+
+            ctx.lineTo(dx,dy);
+            ctx.strokeStyle='red';
+            ctx.lineWidth=4;
+            ctx.stroke();
+            return false;
+        }
+        document.onmouseup=function(){
+            document.onmousedown=null;
+            document.onmousemove=null;
+            ctx.closePath();
+        }
+        return false;
+    }
+
+    document.getElementsByTagName('button')[0].onclick=function(){
+        ctx.clearRect(0,0,800,800);
+    }
+</script>
+</body>
+</html>

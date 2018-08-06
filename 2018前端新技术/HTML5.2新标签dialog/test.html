@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        *{margin:0; padding:0;}
+    </style>
+<head>
+<body>
+    <!-- 创建一个dialog -->
+    <dialog>
+        <h1>这是dialog的标题</h1>
+        <div>这是dialog的内容</div>
+        <button id="close_dialog">关闭</button>
+    </dialog>
+    <button id="open_dialog">打开</button>
+    <script>
+        var dialog = document.getElementsByTagName("dialog")[0],
+            openDialog = document.getElementById("open_dialog"),
+            closeDialog = document.getElementById("close_dialog");
+        openDialog.onclick = function(){
+            // dialog.show();
+            dialog.showModal();
+            // 模式化的显示这个对话框， 并且将会至于所有其他对话框的顶层（屏蔽其他对话框的交互）。 可选传入类型为Element或者MouseEvent的参数， 用来定义对话框的显示位置。
+        };
+        closeDialog.onclick = function(){
+            dialog.close();
+        };
+    </script>
+</body>
+</html>
